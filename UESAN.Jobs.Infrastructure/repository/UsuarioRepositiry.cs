@@ -9,7 +9,7 @@ using UESAN.Proyecto.Core.entities;
 
 namespace UESAN.proyecto.Infrastructure.repository
 {
-	internal class UsuarioRepositiry
+	public class UsuarioRepositiry
 	{
 		private readonly OrdenEventosContext _context;
 

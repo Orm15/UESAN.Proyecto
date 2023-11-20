@@ -9,42 +9,19 @@ using UESAN.Proyecto.Core.entities;
 
 namespace UESAN.proyecto.Infrastructure.repository
 {
-	internal class EventoRepository
+	public class EventoRepository : IEventoRepository
 	{
 		private readonly OrdenEventosContext _context;
 
-		public EventoRepository(OrdenEventosContext context) { 
+		public EventoRepository(OrdenEventosContext context)
+		{
 			_context = context;
 		}
 
 		//ADMIN:
-		public async Task<IEnumerable<Eventos>> getAll() { 
-			var e =  await _context.Eventos.ToListAsync();
-			if (e.Any())
-			{
-				return e;
-			}
-			else {
-				return null;
-			}
-		}
-
-		//Estados: EnEspera - Activo - Culminado
-		//vizualizar
-		public async Task<IEnumerable<Eventos>> getEventosEspera() { 
-			var e = await _context.Eventos.Where(x=> x.Estado == "EnEspera").ToListAsync();
-			if (e.Any())
-			{
-				return e;
-			}
-			else {
-				return null;
-			}
-		}
-
-		public async Task<IEnumerable<Eventos>> getEventosActivos()
+		public async Task<IEnumerable<Eventos>> getAll()
 		{
-			var e = await _context.Eventos.Where(x => x.Estado == "Activo").ToListAsync();
+			var e = await _context.Eventos.ToListAsync();
 			if (e.Any())
 			{
 				return e;
@@ -55,9 +32,18 @@ namespace UESAN.proyecto.Infrastructure.repository
 			}
 		}
 
-		public async Task<IEnumerable<Eventos>> getEventosCulminado()
+		public async Task<bool> insertEvento(Eventos eventos)
 		{
-			var e = await _context.Eventos.Where(x => x.Estado == "Culminado").ToListAsync();
+			await _context.Eventos.AddAsync(eventos);
+			int rows = await _context.SaveChangesAsync();
+			return rows > 0;
+		}
+
+		//Estados: pendiente - Activo - Culminado
+
+		public async Task<IEnumerable<Eventos>> getEventosByEstado(string cadena)
+		{
+			var e = await _context.Eventos.Where(x => x.Estado == cadena).ToListAsync();
 			if (e.Any())
 			{
 				return e;
@@ -67,31 +53,43 @@ namespace UESAN.proyecto.Infrastructure.repository
 				return null;
 			}
 		}
+
 
 		//Cambiar estados:
 
-		public async Task<bool> CambiarEstado(string est, int idE) { 
-			var e = await _context.Eventos.Where(x=> x.IdEvento == idE).FirstOrDefaultAsync();
+		public async Task<bool> CambiarEstado(int idE)
+		{
+
+			var e = await _context.Eventos.Where(x => x.IdEvento == idE).FirstOrDefaultAsync();
 			if (e == null)
 			{
 				return false;
 			}
-			else { 
+			else
+			{
+				string est = e.Estado;
+				if (est == "pendiente")
+				{
+					est = "activo";
+				}
+				else if (est == "activo")
+				{
+					est = "Culminado";
+				}
 				e.Estado = est;
 				int rows = await _context.SaveChangesAsync();
 				return rows > 0;
 			}
 		}
 
-		//Eventos creados por una persona:
 
 
 
 		//GetById
 		public async Task<Eventos> getEventosById(int id)
 		{
-			var e = await _context.Eventos.Where(x=> x.IdEvento==id).FirstOrDefaultAsync();	
-			if(e == null)
+			var e = await _context.Eventos.Where(x => x.IdEvento == id).FirstOrDefaultAsync();
+			if (e == null)
 			{
 				return null;
 			}
@@ -104,15 +102,27 @@ namespace UESAN.proyecto.Infrastructure.repository
 		//Modificar datos de evento:
 		public async Task<bool> update(Eventos e)
 		{
+			//verificar que no tenga estado activo ni culminado
+			//En pendiente  no se debe poder modificar el evento a menos de 
+			//4 dias de la fecha de inicio.
 			_context.Update(e);
 			int rows = _context.SaveChanges();
 			return rows > 0;
-
 		}
-		 
 
-
-
+		public async Task<bool> delete(int id)
+		{
+			var eve = await _context.Eventos.Where(x=>x.IdEvento==id).FirstOrDefaultAsync();
+			if (eve == null)
+			{
+				return false;
+			}
+			else {
+				eve.Estado = "Eliminado";
+				int rows = await _context.SaveChangesAsync();
+				return rows > 0;
+			}
+		}
 
 
 

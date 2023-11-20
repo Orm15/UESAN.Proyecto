@@ -11,7 +11,7 @@ using UESAN.Proyecto.Core.entities;
 
 namespace UESAN.proyecto.Infrastructure.repository
 {
-	internal class InteraccionRepository
+	public class InteraccionRepository
 	{
 		private readonly OrdenEventosContext _eventosContext;
 
@@ -47,6 +47,21 @@ namespace UESAN.proyecto.Infrastructure.repository
 				return null;
 			}
 		}
+		//Interacciones en las que el usuario ingresado es creador
+		public async Task<IEnumerable<Interaccion>> GetbyIdUsuarioCreador(int id)
+		{
+			var intera = await _eventosContext.Interaccion.Where(x => x.IdUsuario == id && x.Tipo == "Creador").ToListAsync();
+			if (intera.Any())
+			{
+				return intera;
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+
 
 		
 	}
