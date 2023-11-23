@@ -9,15 +9,17 @@ using UESAN.Proyecto.Core.entities;
 
 namespace UESAN.proyecto.Infrastructure.repository
 {
-	public class UsuarioRepositiry
+	public class UsuarioRepository : IUsuarioRepository
 	{
 		private readonly OrdenEventosContext _context;
 
-		public UsuarioRepositiry(OrdenEventosContext context) {
+		public UsuarioRepository(OrdenEventosContext context)
+		{
 			_context = context;
 		}
 		//Funcion del admin
-		public async Task<IEnumerable<Usuarios>> getAll() {
+		public async Task<IEnumerable<Usuarios>> getAll()
+		{
 
 			return await _context.Usuarios.ToListAsync();
 		}
@@ -55,8 +57,29 @@ namespace UESAN.proyecto.Infrastructure.repository
 			int rows = await _context.SaveChangesAsync();
 			return rows > 0;
 		}
+		//si existe un usuario con ese correo ya creado retorna true
+		public async Task<bool> IsEmailRegistered(string email)
+		{
+			return await _context
+				.Usuarios
+				.Where(x => x.Correo == email).AnyAsync();
+		}
 
-		
+		public async Task<Usuarios> SigIn(string username)
+		{
+			var u = await _context.Usuarios.Where(x => x.Correo == username && x.Estado == "activo")
+				.FirstOrDefaultAsync();
+			if (u == null)
+			{
+				return null;
+			}
+			else
+			{
+				return u;
+			}
+		}
+
+
 
 
 

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UESAN.proyecto.Infrastructure.Models;
 using UESAN.Proyecto.Core.entities;
+using UESAN.Proyecto.Core.InterfacesRepository;
 
 namespace UESAN.proyecto.Infrastructure.repository
 {
@@ -102,9 +103,6 @@ namespace UESAN.proyecto.Infrastructure.repository
 		//Modificar datos de evento:
 		public async Task<bool> update(Eventos e)
 		{
-			//verificar que no tenga estado activo ni culminado
-			//En pendiente  no se debe poder modificar el evento a menos de 
-			//4 dias de la fecha de inicio.
 			_context.Update(e);
 			int rows = _context.SaveChanges();
 			return rows > 0;
