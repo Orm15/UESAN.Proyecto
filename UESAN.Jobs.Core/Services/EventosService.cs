@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using UESAN.Proyecto.Core.DTO;
-using UESAN.Proyecto.Core.entities;
+
 using UESAN.Proyecto.Core.InterfacesRepository;
 
 
@@ -13,6 +13,7 @@ namespace UESAN.Proyecto.Core.Services
 {
 	public class EventosService
 	{
+		/*
 		private readonly IEventoRepository _eventoRepository;
 		private readonly IInteraccionRepository _interaccionRepository;
 		
@@ -255,11 +256,6 @@ namespace UESAN.Proyecto.Core.Services
 			}
 		}
 
-		//Para que el admin pueda ver quien fue el creador del evento
-
-
-
-		//Para que el admin pueda ver quienes son los visualisadores del evento
 
 
 
@@ -267,9 +263,7 @@ namespace UESAN.Proyecto.Core.Services
 
 
 
-
-
-
-
+		*/
 	}
+		
 }

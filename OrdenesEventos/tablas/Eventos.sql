@@ -10,6 +10,7 @@
     [estado] NCHAR(20) NULL, 
     [fechaCreacion] DATETIME NULL, 
     [MomentosImportantes] NCHAR(300) NULL, 
-    [CantidadInvitados] INT NULL,
-    
+    [CantidadInvitados] INT NULL, 
+    [idUsuario] INT NULL,
+    FOREIGN KEY ([idUsuario]) REFERENCES [dbo].[Usuarios] ([idUsuario])
 )

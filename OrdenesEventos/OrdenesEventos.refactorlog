@@ -105,4 +105,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ubicacionFoto" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="24f40146-8220-43d1-85a3-93d4346ea0de" ChangeDateTime="11/24/2023 00:02:59">
+    <Property Name="ElementName" Value="[dbo].[ServicioFotos].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ServicioFotos]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IdServicioFotos" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="b08b2373-a678-4a8f-9a92-3c4c7f122c79" ChangeDateTime="11/24/2023 23:36:29">
+    <Property Name="ElementName" Value="[dbo].[ServicioVideo].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ServicioVideo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idVideo" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a6cf3b4c-1165-44fe-8024-cc1749a9890b" ChangeDateTime="11/25/2023 01:00:23">
+    <Property Name="ElementName" Value="[dbo].[Edicion].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Edicion]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idEdicion" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fcb9f942-3ea8-4105-865c-9417e26686e6" ChangeDateTime="11/28/2023 04:32:05">
+    <Property Name="ElementName" Value="[dbo].[Stream].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Stream]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idStream" />
+  </Operation>
 </Operations>

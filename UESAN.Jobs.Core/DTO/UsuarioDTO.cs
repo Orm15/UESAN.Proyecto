@@ -30,4 +30,6 @@ namespace UESAN.Proyecto.Core.DTO
 		public string? Area { get; set; }
 
 	}
+
+	
 }

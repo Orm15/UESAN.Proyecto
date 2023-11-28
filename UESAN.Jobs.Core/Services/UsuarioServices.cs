@@ -5,12 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UESAN.proyecto.Infrastructure.repository;
 using UESAN.Proyecto.Core.DTO;
-using UESAN.Proyecto.Core.entities;
 
 namespace UESAN.Proyecto.Core.Services
 {
 	public  class UsuarioServices
-	{
+	{/*
 		private readonly IUsuarioRepository _usuarioRepository;
 
 		public UsuarioServices(IUsuarioRepository usuarioRepository)
@@ -79,9 +78,7 @@ namespace UESAN.Proyecto.Core.Services
 			}
 		}
 
-		//sigin
-
-		public async Task<int> 
+		*/
 
 	}
 }
