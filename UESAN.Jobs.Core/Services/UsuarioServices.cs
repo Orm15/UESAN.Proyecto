@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UESAN.Proyecto.Core.DTO;
+using UESAN.Proyecto.Core.entities;
+using UESAN.Proyecto.Core.InterfacesRepository;
 
 namespace UESAN.Proyecto.Core.Services
 {
 	public  class UsuarioServices
-	{/*
+	{
 		private readonly IUsuarioRepository _usuarioRepository;
 
 		public UsuarioServices(IUsuarioRepository usuarioRepository)
@@ -77,7 +79,7 @@ namespace UESAN.Proyecto.Core.Services
 			}
 		}
 
-		*/
+		
 
 	}
 }

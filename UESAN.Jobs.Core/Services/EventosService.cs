@@ -4,15 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-
+using UESAN.Proyecto.Core.DTO;
+using UESAN.Proyecto.Core.entities;
+using UESAN.Proyecto.Core.InterfacesRepository;
 
 namespace UESAN.Proyecto.Core.Services
 {
 	public class EventosService
 	{
-		/*
+		
 		private readonly IEventoRepository _eventoRepository;
-		private readonly IInteraccionRepository _interaccionRepository;
 		
 
 		public EventosService(IEventoRepository eventoRepository)
@@ -139,119 +140,14 @@ namespace UESAN.Proyecto.Core.Services
 
 		//Dame los eventos donde  dado el idUsuario retorne todos donde fue creador
 
-		public async Task<IEnumerable<EventosDTO>> getEventosCreadorByIdUsuario(int idUsuario)
-		{
-			var interacciones = await _interaccionRepository.GetInteraccionesbyIdUsuarioCreador(idUsuario);
-			if (interacciones.Any())
-			{
-				List < Eventos > eve = new List < Eventos >();
-				int idEvento;
-				foreach (var item in interacciones)
-                {
-					idEvento = (int)item.IdEvento;
-					var e = await _eventoRepository.getEventosById(idEvento);
-					eve.Add(e);
-                }
-
-				var eventosD = eve.Select(x => new EventosDTO
-				{
-					IdEvento = x.IdEvento,
-					Descripcion = x.Descripcion,
-					HoraFin = x.HoraFin,
-					HoraInicio = x.HoraInicio,
-					Nombre = x.Nombre,
-					FechaCreacion = x.FechaCreacion,
-					FechaEvento = x.FechaEvento,
-					Lugar = x.Lugar,
-					Estado = x.Estado,
-					MomentosImportantes = x.MomentosImportantes,
-					CantidadInvitados = x.CantidadInvitados
-
-				});
-
-				return eventosD;  
-
-            }
-			else {
-				return null;
-			}
-		}
+		
 
 		//Eventos donde el usuario dado fue creador o vizualizador
 
-		public async Task<IEnumerable<EventosDTO>> GetEventosCreadorVisualizadorByIdUsuario(int id)
-		{
-			var interacciones = await _interaccionRepository.getInteraccionesByCreadorVisualizador(id);
-			if (interacciones.Any())
-			{
-				int idEve;
-				List<Eventos> eventos = new List<Eventos>();
-                foreach (var item in interacciones)
-                {
-					idEve = (int)item.IdEvento;
-					var e = await _eventoRepository.getEventosById(idEve);
-					eventos.Add(e);
-                }
-				var ev = eventos.Select(x => new EventosDTO
-				{
-					IdEvento = x.IdEvento,
-					Descripcion = x.Descripcion,
-					HoraFin = x.HoraFin,
-					HoraInicio = x.HoraInicio,
-					Nombre = x.Nombre,
-					FechaCreacion = x.FechaCreacion,
-					FechaEvento = x.FechaEvento,
-					Lugar = x.Lugar,
-					Estado = x.Estado,
-					MomentosImportantes = x.MomentosImportantes,
-					CantidadInvitados = x.CantidadInvitados
-				});
-
-				return ev;
-
-            }
-			else {
-				return null;
-			}
-		}
+		
 		//Eventos donde el usuario es un visualizador solo eso
 
-		public async Task<IEnumerable<EventosDTO>> GetEventosVisualizadorByIdUsuario(int id)
-		{
-			var interacciones = await _interaccionRepository.GetInteraccionesbyIdUsuarioVisualizador(id);
-			if (interacciones.Any())
-			{
-				int idEve;
-				List<Eventos> eventos = new List<Eventos>();
-				foreach (var item in interacciones)
-				{
-					idEve = (int)item.IdEvento;
-					var e = await _eventoRepository.getEventosById(idEve);
-					eventos.Add(e);
-				}
-				var ev = eventos.Select(x => new EventosDTO
-				{
-					IdEvento = x.IdEvento,
-					Descripcion = x.Descripcion,
-					HoraFin = x.HoraFin,
-					HoraInicio = x.HoraInicio,
-					Nombre = x.Nombre,
-					FechaCreacion = x.FechaCreacion,
-					FechaEvento = x.FechaEvento,
-					Lugar = x.Lugar,
-					Estado = x.Estado,
-					MomentosImportantes = x.MomentosImportantes,
-					CantidadInvitados = x.CantidadInvitados
-				});
-
-				return ev;
-
-			}
-			else
-			{
-				return null;
-			}
-		}
+		
 
 
 
@@ -260,7 +156,7 @@ namespace UESAN.Proyecto.Core.Services
 
 
 
-		*/
+		
 	}
 		
 }

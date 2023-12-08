@@ -4,17 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
+using UESAN.proyecto.Infrastructure.Models;
+using UESAN.Proyecto.Core.entities;
+using UESAN.Proyecto.Core.InterfacesRepository;
 
 namespace UESAN.proyecto.Infrastructure.repository
 {
-	public class UsuarioRepository 
+	public class UsuarioRepository : IUsuarioRepository
 	{
-		/*
-		private readonly OrdenEventosContext _context;
 
-		public UsuarioRepository(OrdenEventosContext context)
+		private readonly OrdenesEventosContext _context;
+
+		public UsuarioRepository(OrdenesEventosContext context)
 		{
 			_context = context;
 		}
@@ -83,7 +84,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 
 
 
-		*/
+
 
 	}
 }

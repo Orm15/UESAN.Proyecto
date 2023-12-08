@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using UESAN.proyecto.Infrastructure.Models;
+using UESAN.Proyecto.Core.entities;
 
 var builder = WebApplication.CreateBuilder(args);
-/*
+
 // Add services to the container.
 var _config = builder.Configuration;
 var connectionString = _config
@@ -10,7 +12,7 @@ builder
 	   .Services
 	   .AddDbContext<OrdenesEventosContext>
 	   (options => options.UseSqlServer(connectionString));
-*/
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

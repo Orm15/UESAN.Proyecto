@@ -4,16 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UESAN.proyecto.Infrastructure.Models;
 using UESAN.Proyecto.Core.entities;
+using UESAN.Proyecto.Core.InterfacesRepository;
 
 namespace UESAN.proyecto.Infrastructure.repository
 {
-	public class EventoRepository
+	public class EventoRepository : IEventoRepository
 	{
-		
-		private readonly OrdenEventosContext _context;
 
-		public EventoRepository(OrdenEventosContext context)
+		private readonly OrdenesEventosContext _context;
+
+		public EventoRepository(OrdenesEventosContext context)
 		{
 			_context = context;
 		}
@@ -109,12 +111,13 @@ namespace UESAN.proyecto.Infrastructure.repository
 
 		public async Task<bool> delete(int id)
 		{
-			var eve = await _context.Eventos.Where(x=>x.IdEvento==id).FirstOrDefaultAsync();
+			var eve = await _context.Eventos.Where(x => x.IdEvento == id).FirstOrDefaultAsync();
 			if (eve == null)
 			{
 				return false;
 			}
-			else {
+			else
+			{
 				eve.Estado = "Eliminado";
 				int rows = await _context.SaveChangesAsync();
 				return rows > 0;
@@ -123,7 +126,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 
 
 
-		
+
 
 	}
 }
