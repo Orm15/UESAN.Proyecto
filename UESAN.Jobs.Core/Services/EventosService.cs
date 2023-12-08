@@ -4,9 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using UESAN.Proyecto.Core.DTO;
-
-using UESAN.Proyecto.Core.InterfacesRepository;
 
 
 namespace UESAN.Proyecto.Core.Services
