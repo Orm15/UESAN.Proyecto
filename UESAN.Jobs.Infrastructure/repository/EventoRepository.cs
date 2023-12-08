@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using UESAN.Proyecto.Core.entities;
 
 namespace UESAN.proyecto.Infrastructure.repository
 {
 	public class EventoRepository
 	{
-		/*
+		
 		private readonly OrdenEventosContext _context;
 
 		public EventoRepository(OrdenEventosContext context)
@@ -123,7 +123,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 
 
 
-		*/
+		
 
 	}
 }

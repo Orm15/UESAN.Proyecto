@@ -19,8 +19,4 @@
     <ProjectReference Include="..\UESAN.Jobs.Core\UESAN.Proyecto.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>

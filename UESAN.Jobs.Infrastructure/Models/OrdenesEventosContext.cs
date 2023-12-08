@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using UESAN.Proyecto.Core.entities;
 
-namespace UESAN.Proyecto.Core.entities;
+namespace UESAN.proyecto.Infrastructure.Models;
 
 public partial class OrdenesEventosContext : DbContext
 {
