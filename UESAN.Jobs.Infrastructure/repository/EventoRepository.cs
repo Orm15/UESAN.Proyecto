@@ -41,7 +41,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 			return rows > 0;
 		}
 
-		//Estados: pendiente - Activo - Culminado
+		//Estados: Abierto - Confirmado - Atendido
 
 		public async Task<IEnumerable<Eventos>> getEventosByEstado(string cadena)
 		{
@@ -57,7 +57,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 		}
 
 
-		//Cambiar estados:
+		//Cambiar estados: MODIFICAR
 
 		public async Task<bool> CambiarEstado(int idE)
 		{
