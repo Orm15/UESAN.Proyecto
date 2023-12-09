@@ -6,5 +6,6 @@
     [area] NVARCHAR(50) NULL, 
     [tipo] NVARCHAR(50) NULL, 
     [estado] NCHAR(20) NULL, 
-    [contra] NVARCHAR(50) NULL
+    [contra] NVARCHAR(50) NULL, 
+    [salt] NCHAR(24) NULL
 )
