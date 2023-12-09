@@ -19,5 +19,7 @@ public partial class Usuarios
 
 	public string? Contra { get; set; }
 
+	public string? Salt { get; set; }
+
 	public virtual ICollection<Eventos> Eventos { get; set; } = new List<Eventos>();
 }

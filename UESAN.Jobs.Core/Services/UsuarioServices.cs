@@ -6,59 +6,95 @@ using System.Threading.Tasks;
 using UESAN.Proyecto.Core.DTO;
 using UESAN.Proyecto.Core.entities;
 using UESAN.Proyecto.Core.InterfacesRepository;
+using UESAN.Proyecto.Core.InterfacesServices;
+using UESAN.Proyecto.Core.Utilidades;
 
 namespace UESAN.Proyecto.Core.Services
 {
-	public  class UsuarioServices
+    public class UsuarioServices : IUsuarioServices
 	{
 		private readonly IUsuarioRepository _usuarioRepository;
 
 		public UsuarioServices(IUsuarioRepository usuarioRepository)
 		{
 			_usuarioRepository = usuarioRepository;
-		}	
-		//traer todos los usuarios
-		public async Task<IEnumerable<UsuarioDTO>> getAll()
+		}
+		//traer todos los usuarios por estado
+		public async Task<IEnumerable<UsuarioDTO>> getAll(string estado)
 		{
-			var u = await _usuarioRepository.getAll();
+			var u = await _usuarioRepository.getAll(estado);
 			var ud = u.Select(x => new UsuarioDTO
 			{
 				IdUsuario = x.IdUsuario,
 				Nombre = x.Nombre,
 				Correo = x.Correo,
-				Estado = x.Estado,
 				Tipo = x.Tipo,
+				Area = x.Area
 			});
 
 			return ud;
 		}
 
-		//Crear un admin
-
-		public async Task<int> CreateAdmin(UsuarioCreateDTO usuarioCreateDTO)
+		//GetById
+		public async Task<UsuarioDTO> getById(int id)
 		{
-			var est = await _usuarioRepository.IsEmailRegistered(usuarioCreateDTO.Correo);
-			if(est == false)
+			var u = await _usuarioRepository.getById(id);
+			if (u != null)
 			{
-				var u = new Usuarios
+				var usu = new UsuarioDTO
 				{
-					Nombre = usuarioCreateDTO.Nombre,
-					Correo=usuarioCreateDTO.Correo,
-					Area = usuarioCreateDTO.Area,
-					Estado = "Activo",
-					Tipo = "Admin"
+					IdUsuario = u.IdUsuario,
+					Nombre = u.Nombre,
+					Correo = u.Correo,
+					Tipo = u.Tipo,
+					Area = u.Area
 				};
-				return await _usuarioRepository.Insert(u);
+				return usu;
 			}
 			else
 			{
-				return 0;
+				return null;
+			}
+
+		}
+
+
+		//Crear un admin
+
+		public async Task<UsuarioAuthResponseDTO> CreateAdmin(UsuarioCreateDTO usuarioCreateDTO)
+		{
+			var est = await _usuarioRepository.IsEmailRegistered(usuarioCreateDTO.Correo);
+			if (est == false)
+			{
+				var (p, s) = SecurityHelperUtilidades.SetPassword(usuarioCreateDTO.Contra);
+				var u = new Usuarios
+				{
+					Nombre = usuarioCreateDTO.Nombre,
+					Correo = usuarioCreateDTO.Correo,
+					Area = usuarioCreateDTO.Area,
+					Estado = "Activo",
+					Tipo = "Admin",
+					Contra = p,
+					Salt = s
+				};
+				//Esto se agrego para retornar id y tipo
+				var usuario = await _usuarioRepository.Insert(u);
+				var uard = new UsuarioAuthResponseDTO
+				{
+					IdUsuario = usuario.IdUsuario,
+					Tipo = usuario.Tipo,
+				};
+				return uard;
+			}
+			else
+			{
+				return null;
 			}
 		}
 
-		//Crear un usuario Normal
+		//Crear un usuario Normal sin salt
 
-		public async Task<int> CreateUsuarioNormal(UsuarioCreateDTO usuarioCreateDTO)
+		public async Task<UsuarioAuthResponseDTO> CreateUsuarioNormal(UsuarioCreateDTO usuarioCreateDTO)
 		{
 			var est = await _usuarioRepository.IsEmailRegistered(usuarioCreateDTO.Correo);
 			if (est == false)
@@ -71,15 +107,137 @@ namespace UESAN.Proyecto.Core.Services
 					Estado = "Activo",
 					Tipo = "normal"
 				};
-				return await _usuarioRepository.Insert(u);
+				//Esto se agrego para retornar id y tipo
+				var usuario = await _usuarioRepository.Insert(u);
+				var uard = new UsuarioAuthResponseDTO
+				{
+					IdUsuario = usuario.IdUsuario,
+					Tipo = usuario.Tipo,
+				};
+				return uard;
 			}
 			else
 			{
-				return 0;
+				return null;
+			}
+		}
+		//Crear un usuario Normal con Salt
+		public async Task<UsuarioAuthResponseDTO> CreateUsuarioNormalSalt(UsuarioCreateDTO usuarioCreateDTO)
+		{
+			var est = await _usuarioRepository.IsEmailRegistered(usuarioCreateDTO.Correo);
+			if (est == false)
+			{
+				var (p,s) = SecurityHelperUtilidades.SetPassword(usuarioCreateDTO.Contra);
+				var u = new Usuarios
+				{
+					Nombre = usuarioCreateDTO.Nombre,
+					Correo = usuarioCreateDTO.Correo,
+					Area = usuarioCreateDTO.Area,
+					Estado = "Activo",
+					Tipo = "normal",
+					Contra = p,
+					Salt = s
+					
+				};
+				//Esto se agrego para retornar id y tipo
+				var usuario =  await _usuarioRepository.Insert(u);
+				var uard = new UsuarioAuthResponseDTO
+				{
+					IdUsuario = usuario.IdUsuario,
+					Tipo = usuario.Tipo,
+				};
+				return uard;
+			}
+			else
+			{
+				return null;
 			}
 		}
 
-		
+		//modificar un usuario
+		public async Task<bool> updateUsuario(UsuarioUpdateDTO usuarioUpdateDTO)
+		{
+			var usuario = new Usuarios
+			{
+				IdUsuario = usuarioUpdateDTO.IdUsuario,
+				Nombre = usuarioUpdateDTO.Nombre,
+				Contra = usuarioUpdateDTO.Contra,
+				Correo = usuarioUpdateDTO.Correo,
+				Area = usuarioUpdateDTO.Area,
+				Estado = "Activo",
+				Tipo = "normal"
+
+			};
+			var est = await _usuarioRepository.update(usuario);
+			return est;
+		}
+
+		//modificar un usuario con salt
+		public async Task<bool> updateUsuarioSalt(UsuarioUpdateDTO usuarioUpdateDTO)
+		{
+			var(p, s) = SecurityHelperUtilidades.SetPassword(usuarioUpdateDTO.Contra);
+			var usuario = new Usuarios
+			{
+				IdUsuario = usuarioUpdateDTO.IdUsuario,
+				Nombre = usuarioUpdateDTO.Nombre,
+				Contra = p,
+				Correo = usuarioUpdateDTO.Correo,
+				Area = usuarioUpdateDTO.Area,
+				Estado = "Activo",
+				Tipo = "normal",
+				Salt = s
+
+			};
+			var est = await _usuarioRepository.update(usuario);
+			return est;
+		}
+		//ingresar por medio de un validación sin salt
+		public async Task<UsuarioAuthResponseDTO> sigIn(string correo, string password)
+		{
+			var u = await _usuarioRepository.SigIn(correo, password);
+			if (u != null)
+			{
+				var usuariod = new UsuarioAuthResponseDTO
+				{
+					IdUsuario = u.IdUsuario,
+					Tipo = u.Tipo
+				};
+				return usuariod;
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		//ingresar por medio de un validación con salt
+		public async Task<UsuarioAuthResponseDTO> sigInSal(string correo, string password)
+		{
+			var u = await _usuarioRepository.SigInSalt(correo, password);
+			if (u != null)
+			{
+				var usuariod = new UsuarioAuthResponseDTO
+				{
+					IdUsuario = u.IdUsuario,
+					Tipo = u.Tipo
+				};
+				return usuariod;
+			}
+			else
+			{
+				return null;
+			}
+		}
+		//borrar
+
+		public async Task<bool> delete(int id)
+		{
+			var est = await _usuarioRepository.delete(id);
+			return est;
+		}
+
+
+
 
 	}
 }
