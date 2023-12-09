@@ -64,6 +64,14 @@ namespace UESAN.Proyecto.Core.DTO
 
 	}
 
+	public class UsuarioPropietarioDTO
+	{
+		public int IdUsuario { get; set; }
+
+		public string? Nombre { get; set; }
+
+	}
+
 
 
 }

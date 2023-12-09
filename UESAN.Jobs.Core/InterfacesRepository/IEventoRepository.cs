@@ -11,5 +11,7 @@ namespace UESAN.Proyecto.Core.InterfacesRepository
 		Task<Eventos> getEventosById(int id);
 		Task<bool> insertEvento(Eventos eventos);
 		Task<bool> update(Eventos e);
+
+		Task<IEnumerable<Eventos>> getEventosByUsuario(int id);
 	}
 }
