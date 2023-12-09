@@ -23,7 +23,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 		//ADMIN:
 		public async Task<IEnumerable<Eventos>> getAll()
 		{
-			var e = await _context.Eventos.ToListAsync();
+			var e = await _context.Eventos.Include(x=> x.IdUsuarioNavigation).ToListAsync();
 			if (e.Any())
 			{
 				return e;
@@ -70,13 +70,13 @@ namespace UESAN.proyecto.Infrastructure.repository
 			else
 			{
 				string est = e.Estado;
-				if (est == "pendiente")
+				if (est == "Abierto")
 				{
-					est = "activo";
+					est = "Confirmado";
 				}
-				else if (est == "activo")
+				else if (est == "Confirmado")
 				{
-					est = "Culminado";
+					est = "Atendido";
 				}
 				e.Estado = est;
 				int rows = await _context.SaveChangesAsync();
@@ -98,6 +98,19 @@ namespace UESAN.proyecto.Infrastructure.repository
 			else
 			{
 				return e;
+			}
+		}
+		//GetEventos By idUsuario
+		public async Task<IEnumerable<Eventos>> getEventosByUsuario(int id)
+		{
+			var eve = await _context.Eventos.Where(x=> x.IdUsuario == id).Include(y => y.IdUsuarioNavigation).ToListAsync();
+			if (eve.Any())
+			{
+				return eve;
+			}
+			else
+			{
+				return null;
 			}
 		}
 
