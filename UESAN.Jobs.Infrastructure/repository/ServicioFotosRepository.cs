@@ -9,7 +9,7 @@ using UESAN.Proyecto.Core.InterfacesRepository;
 
 namespace UESAN.proyecto.Infrastructure.repository
 {
-    public class ServicioFotosRepository 
+    public class ServicioFotosRepository : IServicioFotosRepository
     {
         private readonly OrdenesEventosContext _context;
 
@@ -68,6 +68,6 @@ namespace UESAN.proyecto.Infrastructure.repository
         }
 
         //delete: no hay delete :V
-        
+
     }
 }
