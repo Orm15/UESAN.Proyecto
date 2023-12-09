@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{5f0d6d06-ba2a-45c0-9c5c-cc9e3503bba6}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql150DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath />
     <RootNamespace>OrdenesEventos</RootNamespace>
@@ -60,7 +60,6 @@
     <Build Include="tablas\Usuarios.sql" />
     <Build Include="tablas\Eventos.sql" />
     <Build Include="tablas\Servicios.sql" />
-    <Build Include="tablas\foto.sql" />
     <Build Include="tablas\videos.sql" />
     <Build Include="tablas\ServicioFotos.sql" />
     <Build Include="tablas\Edicion.sql" />

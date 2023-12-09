@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using UESAN.Proyecto.Core.entities;
 
-namespace UESAN.Proyecto.Core.entities;
+namespace UESAN.proyecto.Infrastructure.Models;
 
 public partial class ServicioFotos
 {
-	public int IdServicioFotos { get; set; }
+    public int IdServicioFotos { get; set; }
 
-	public int? IdServicio { get; set; }
+    public int? IdServicio { get; set; }
 
-	public int? IdFotos { get; set; }
+    public string? CantidadFotos { get; set; }
 
-	public string? CantidadFotos { get; set; }
+    public string? TipoFoto { get; set; }
 
-	public string? Tipo { get; set; }
+    public string? PesonaObjetivo { get; set; }
 
-	public string? PesonaObjetivo { get; set; }
+    public string? Canales { get; set; }
 
-	public virtual Foto? IdFotosNavigation { get; set; }
+    public string? Link { get; set; }
 
-	public virtual Servicios? IdServicioNavigation { get; set; }
+    public virtual Servicios? IdServicioNavigation { get; set; }
 }
