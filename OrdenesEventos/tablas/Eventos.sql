@@ -3,7 +3,7 @@
 	[idEvento] INT NOT NULL PRIMARY KEY identity, 
     [nombre] NCHAR(50) NULL, 
     [descripcion] NCHAR(50) NULL, 
-    [fechaEvento] DATE NULL, 
+    [fechaEvento] DATETIME NULL, 
     [horaInicio] NCHAR(50) NULL, 
     [horaFin] NCHAR(50) NULL, 
     [lugar] NCHAR(50) NULL, 

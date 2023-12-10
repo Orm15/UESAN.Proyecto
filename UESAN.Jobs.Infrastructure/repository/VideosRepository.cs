@@ -10,7 +10,7 @@ using UESAN.Proyecto.Core.InterfacesRepository;
 
 namespace UESAN.proyecto.Infrastructure.repository
 {
-    public class VideosRepository : IVideosRepository
+	public class VideosRepository : IVideosRepository
     {
         private readonly OrdenesEventosContext _context;
 

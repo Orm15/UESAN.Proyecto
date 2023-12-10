@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using UESAN.Proyecto.Core.entities;
-using Stream = UESAN.Proyecto.Core.entities.Stream;
 
 namespace UESAN.proyecto.Infrastructure.Models;
 
@@ -25,7 +24,7 @@ public partial class OrdenesEventosContext : DbContext
 
     public virtual DbSet<Servicios> Servicios { get; set; }
 
-    public virtual DbSet<Stream> Stream { get; set; }
+    public virtual DbSet<Proyecto.Core.entities.Stream> Stream { get; set; }
 
     public virtual DbSet<Usuarios> Usuarios { get; set; }
 
@@ -41,7 +40,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Edicion>(entity =>
         {
-            entity.HasKey(e => e.IdEdicion).HasName("PK__Edicion__8A0A9839D933CF08");
+            entity.HasKey(e => e.IdEdicion).HasName("PK__Edicion__8A0A9839727F6EE4");
 
             entity.Property(e => e.IdEdicion)
                 .ValueGeneratedNever()
@@ -62,7 +61,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Eventos>(entity =>
         {
-            entity.HasKey(e => e.IdEvento).HasName("PK__Eventos__C8DC7BDAE6FC765B");
+            entity.HasKey(e => e.IdEvento).HasName("PK__Eventos__C8DC7BDA004F0933");
 
             entity.Property(e => e.IdEvento).HasColumnName("idEvento");
             entity.Property(e => e.Descripcion)
@@ -77,7 +76,7 @@ public partial class OrdenesEventosContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("fechaCreacion");
             entity.Property(e => e.FechaEvento)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("fechaEvento");
             entity.Property(e => e.HoraFin)
                 .HasMaxLength(50)
@@ -107,7 +106,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<ServicioFotos>(entity =>
         {
-            entity.HasKey(e => e.IdServicioFotos).HasName("PK__Servicio__A49B09EB8432FCED");
+            entity.HasKey(e => e.IdServicioFotos).HasName("PK__Servicio__A49B09EB2303E894");
 
             entity.Property(e => e.IdServicioFotos).ValueGeneratedNever();
             entity.Property(e => e.Canales)
@@ -133,7 +132,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Servicios>(entity =>
         {
-            entity.HasKey(e => e.IdServicios).HasName("PK__Servicio__185EC2A06E662219");
+            entity.HasKey(e => e.IdServicios).HasName("PK__Servicio__185EC2A0B9F46531");
 
             entity.Property(e => e.IdServicios).HasColumnName("idServicios");
             entity.Property(e => e.IdEvento).HasColumnName("idEvento");
@@ -151,9 +150,9 @@ public partial class OrdenesEventosContext : DbContext
                 .HasConstraintName("FK__Servicios__idEve__32E0915F");
         });
 
-        modelBuilder.Entity<Stream>(entity =>
+        modelBuilder.Entity<Proyecto.Core.entities.Stream>(entity =>
         {
-            entity.HasKey(e => e.IdStream).HasName("PK__Stream__E1BBB4DFDC416262");
+            entity.HasKey(e => e.IdStream).HasName("PK__Stream__E1BBB4DFB07BA799");
 
             entity.Property(e => e.IdStream)
                 .ValueGeneratedNever()
@@ -167,7 +166,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Usuarios>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__645723A614AB8D90");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__645723A6A0B4366B");
 
             entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
             entity.Property(e => e.Area)
@@ -197,7 +196,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Videos>(entity =>
         {
-            entity.HasKey(e => e.IdVideo).HasName("PK__videos__D2D0AD2A8F695386");
+            entity.HasKey(e => e.IdVideo).HasName("PK__videos__D2D0AD2A3F3BF3AA");
 
             entity.ToTable("videos");
 
