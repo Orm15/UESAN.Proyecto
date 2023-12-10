@@ -10,7 +10,7 @@ using UESAN.Proyecto.Core.InterfacesRepository;
 
 namespace UESAN.proyecto.Infrastructure.repository
 {
-    public class ServicioFotosRepository : IServicioFotosRepository
+	public class ServicioFotosRepository : IServicioFotosRepository
     {
         private readonly OrdenesEventosContext _context;
 

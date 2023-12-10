@@ -23,16 +23,24 @@ namespace UESAN.Proyecto.Core.Services
 		public async Task<IEnumerable<UsuarioDTO>> getAll(string estado)
 		{
 			var u = await _usuarioRepository.getAll(estado);
-			var ud = u.Select(x => new UsuarioDTO
+			if(u.Any())
 			{
-				IdUsuario = x.IdUsuario,
-				Nombre = x.Nombre,
-				Correo = x.Correo,
-				Tipo = x.Tipo,
-				Area = x.Area
-			});
+				var ud = u.Select(x => new UsuarioDTO
+				{
+					IdUsuario = x.IdUsuario,
+					Nombre = x.Nombre,
+					Correo = x.Correo,
+					Tipo = x.Tipo,
+					Area = x.Area
+				});
 
-			return ud;
+				return ud;
+			}
+			else
+			{
+				return new List<UsuarioDTO>();
+			}
+			
 		}
 
 		//GetById

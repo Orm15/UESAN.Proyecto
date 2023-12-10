@@ -2,7 +2,7 @@
 
 namespace UESAN.Proyecto.Core.InterfacesRepository
 {
-    public interface IServicioFotosRepository
+	public interface IServicioFotosRepository
     {
         Task<IEnumerable<ServicioFotos>> getAll();
         Task<ServicioFotos> getById(int id);
