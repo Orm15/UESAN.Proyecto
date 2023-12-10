@@ -11,7 +11,9 @@ namespace UESAN.Proyecto.Core.InterfacesServices
         Task<IEnumerable<EventosDTO>> GetEventosByUsuarioCreador(int id);
         Task<IEnumerable<EventosDTO>> getEventosByUsuarioCreadorOrVizualizador(int id);
         Task<IEnumerable<EventosDTO>> getEventosByUsuarioVizualizador(int id);
-        Task<bool> InsertEvento(EventoInsertDTO eventoInsertDTO);
+        Task<int> InsertEvento(EventoInsertDTO eventoInsertDTO);
         Task<bool> Update(EventoUpdateDTO eventoUpdateDTO);
-    }
+        Task<EventosDTO> getById(int id);
+
+	}
 }

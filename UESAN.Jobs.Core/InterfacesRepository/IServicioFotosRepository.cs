@@ -1,8 +1,8 @@
-﻿using UESAN.proyecto.Infrastructure.Models;
+﻿using UESAN.Proyecto.Core.entities;
 
 namespace UESAN.Proyecto.Core.InterfacesRepository
 {
-    public interface IServicioFotosRepository
+	public interface IServicioFotosRepository
     {
         Task<IEnumerable<ServicioFotos>> getAll();
         Task<ServicioFotos> getById(int id);
