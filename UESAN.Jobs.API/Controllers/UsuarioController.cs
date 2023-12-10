@@ -58,7 +58,7 @@ namespace UESAN.proyecto.API.Controllers
 		[HttpPut]
 		public async Task<IActionResult> Update(UsuarioUpdateDTO uad)
 		{
-			var u = await _usuarioServices.updateUsuario(uad);
+			var u = await _usuarioServices.updateUsuarioSalt(uad);
 			return Ok(u);
 		}
 
@@ -74,8 +74,15 @@ namespace UESAN.proyecto.API.Controllers
 		[HttpGet("GetAll")]
 		public async Task<ActionResult> GetAll(string estado)
 		{
-			var empresa = await _usuarioServices.getAll(estado);
-			return Ok(empresa);
+			var u = await _usuarioServices.getAll(estado);
+			if (u.Any())
+			{
+				return Ok(u);
+			}
+			else
+			{
+				return BadRequest();
+			}
 		}
 
 		[HttpGet("{id}")]

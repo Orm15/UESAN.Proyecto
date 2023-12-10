@@ -21,6 +21,9 @@ builder
 //Aqui se  registran las clases:
 builder.Services.AddTransient<IUsuarioRepository,UsuarioRepository>();
 builder.Services.AddTransient<IUsuarioServices,UsuarioServices>();
+builder.Services.AddTransient<IEventoRepository,EventoRepository>();
+builder.Services.AddTransient<IEventosService, EventosService>();
+
 
 
 
