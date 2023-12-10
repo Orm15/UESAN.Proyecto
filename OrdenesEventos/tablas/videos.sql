@@ -8,6 +8,7 @@
     [lugarFilmacion] NCHAR(50) NULL, 
     [Edicion] INT NULL,
     [idServicio] INT NULL, 
+    [estado] NCHAR(20) NULL, 
     FOREIGN KEY ([idServicio]) REFERENCES [dbo].[Servicios] ([idServicios]),
 
     

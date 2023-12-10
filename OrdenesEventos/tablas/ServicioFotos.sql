@@ -7,5 +7,6 @@
     [PesonaObjetivo] NCHAR(10) NULL,
     [Canales] NCHAR(40) NULL, 
     [Link] NCHAR(200) NULL, 
+    [estado] NCHAR(20) NULL, 
     FOREIGN KEY ([idServicio]) REFERENCES [dbo].[Servicios] ([idServicios])
 )
