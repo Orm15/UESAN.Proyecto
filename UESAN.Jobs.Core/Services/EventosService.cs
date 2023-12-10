@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -35,26 +36,7 @@ namespace UESAN.Proyecto.Core.Services
 			}
 			else
 			{
-				var EveDTO = eve.Select(e => new EventosDTO
-				{
-					IdEvento = e.IdEvento,
-					Nombre = e.Nombre,
-					Descripcion = e.Descripcion,
-					FechaEvento = e.FechaEvento,
-					FechaCreacion = e.FechaCreacion,
-					HoraFin = e.HoraFin,
-					HoraInicio = e.HoraInicio,
-					Lugar = e.Lugar,
-					Estado = e.Estado,
-					MomentosImportantes = e.MomentosImportantes,
-					CantidadInvitados = e.CantidadInvitados,
-					usuarioPropietario = new UsuarioPropietarioDTO()
-					{
-						IdUsuario = e.IdUsuarioNavigation.IdUsuario,
-						Nombre = e.IdUsuarioNavigation.Nombre
-					}
-
-				});
+				var EveDTO = AsignarDTO((List<Eventos>)eve);
 				return EveDTO;
 			}
 
@@ -97,25 +79,7 @@ namespace UESAN.Proyecto.Core.Services
 			{
 				return null;
 			}
-			var dto = eve.Select(e => new EventosDTO
-			{
-				IdEvento = e.IdEvento,
-				Nombre = e.Nombre,
-				Descripcion = e.Descripcion,
-				FechaEvento = e.FechaEvento,
-				FechaCreacion = e.FechaCreacion,
-				HoraFin = e.HoraFin,
-				HoraInicio = e.HoraInicio,
-				Lugar = e.Lugar,
-				Estado = e.Estado,
-				MomentosImportantes = e.MomentosImportantes,
-				CantidadInvitados = e.CantidadInvitados,
-				usuarioPropietario = new UsuarioPropietarioDTO()
-				{
-					IdUsuario = e.IdUsuarioNavigation.IdUsuario,
-					Nombre = e.IdUsuarioNavigation.Nombre
-				}
-			});
+			var dto = AsignarDTO((List<Eventos>)eve);
 
 			if (dto.Any())
 			{
@@ -173,25 +137,7 @@ namespace UESAN.Proyecto.Core.Services
 			}
 			else
 			{
-				var ed = eve.Select(e => new EventosDTO
-				{
-					IdEvento = e.IdEvento,
-					Nombre = e.Nombre,
-					Descripcion = e.Descripcion,
-					FechaEvento = e.FechaEvento,
-					FechaCreacion = e.FechaCreacion,
-					HoraFin = e.HoraFin,
-					HoraInicio = e.HoraInicio,
-					Lugar = e.Lugar,
-					Estado = e.Estado,
-					MomentosImportantes = e.MomentosImportantes,
-					CantidadInvitados = e.CantidadInvitados,
-					usuarioPropietario = new UsuarioPropietarioDTO()
-					{
-						IdUsuario = e.IdUsuarioNavigation.IdUsuario,
-						Nombre = e.IdUsuarioNavigation.Nombre
-					}
-				});
+				var ed = AsignarDTO((List<Eventos>)eve);
 				return ed;
 			}
 
@@ -205,25 +151,7 @@ namespace UESAN.Proyecto.Core.Services
 				var eve = await _eventoRepository.GetEventosByUsuarioCreadorOrVizualizador(id, usu.Area);
 				if(eve!= null)
 				{
-					var eveDTO = eve.Select(e => new EventosDTO
-					{
-						IdEvento = e.IdEvento,
-						Nombre = e.Nombre,
-						Descripcion = e.Descripcion,
-						FechaEvento = e.FechaEvento,
-						FechaCreacion = e.FechaCreacion,
-						HoraFin = e.HoraFin,
-						HoraInicio = e.HoraInicio,
-						Lugar = e.Lugar,
-						Estado = e.Estado,
-						MomentosImportantes = e.MomentosImportantes,
-						CantidadInvitados = e.CantidadInvitados,
-						usuarioPropietario = new UsuarioPropietarioDTO()
-						{
-							IdUsuario = e.IdUsuarioNavigation.IdUsuario,
-							Nombre = e.IdUsuarioNavigation.Nombre
-						}
-					});
+					var eveDTO = AsignarDTO((List<Eventos>)eve);
 					return eveDTO;
 				}
 				else
@@ -249,25 +177,7 @@ namespace UESAN.Proyecto.Core.Services
 				var events = await _eventoRepository.getAllByIdMismaArea(Usuario.Area);
 				if (events != null)
 				{
-					var ed = events.Select(e => new EventosDTO
-					{
-						IdEvento = e.IdEvento,
-						Nombre = e.Nombre,
-						Descripcion = e.Descripcion,
-						FechaEvento = e.FechaEvento,
-						FechaCreacion = e.FechaCreacion,
-						HoraFin = e.HoraFin,
-						HoraInicio = e.HoraInicio,
-						Lugar = e.Lugar,
-						Estado = e.Estado,
-						MomentosImportantes = e.MomentosImportantes,
-						CantidadInvitados = e.CantidadInvitados,
-						usuarioPropietario = new UsuarioPropietarioDTO()
-						{
-							IdUsuario = e.IdUsuarioNavigation.IdUsuario,
-							Nombre = e.IdUsuarioNavigation.Nombre
-						}
-					});
+					var ed = AsignarDTO((List < Eventos >) events);
 					return ed;
 				}
 				else
@@ -295,18 +205,18 @@ namespace UESAN.Proyecto.Core.Services
 			}
 			else
 			{
-				return new EventosDTO
+				var eve = new EventosDTO
 				{
 					IdEvento = e.IdEvento,
-					Nombre = e.Nombre,
-					Descripcion = e.Descripcion,
+					Nombre = e.Nombre.TrimEnd(),
+					Descripcion = e.Descripcion.TrimEnd(),
 					FechaEvento = e.FechaEvento,
 					FechaCreacion = e.FechaCreacion,
-					HoraFin = e.HoraFin,
-					HoraInicio = e.HoraInicio,
-					Lugar = e.Lugar,
-					Estado = e.Estado,
-					MomentosImportantes = e.MomentosImportantes,
+					HoraFin = e.HoraFin.TrimEnd(),
+					HoraInicio = e.HoraInicio.TrimEnd(),
+					Lugar = e.Lugar.TrimEnd(),
+					Estado = e.Estado.TrimEnd(),
+					MomentosImportantes = e.MomentosImportantes.TrimEnd(),
 					CantidadInvitados = e.CantidadInvitados,
 					usuarioPropietario = new UsuarioPropietarioDTO()
 					{
@@ -314,9 +224,55 @@ namespace UESAN.Proyecto.Core.Services
 						Nombre = e.IdUsuarioNavigation.Nombre
 					}
 				};
+				return eve;
 			}
 		}
 
+		public static IEnumerable<EventosDTO> AsignarDTO(List< Eventos> eventos)
+		{
+			var eve = eventos;
+			var ed = eve.Select(e => new EventosDTO
+			{
+				IdEvento = e.IdEvento,
+				Nombre = e.Nombre.TrimEnd(),
+				Descripcion = e.Descripcion.TrimEnd(),
+				FechaEvento = e.FechaEvento,
+				FechaCreacion = e.FechaCreacion,
+				HoraFin = e.HoraFin.TrimEnd(),
+				HoraInicio = e.HoraInicio.TrimEnd(),
+				Lugar = e.Lugar.TrimEnd(),
+				Estado = e.Estado.TrimEnd(),
+				MomentosImportantes = e.MomentosImportantes.TrimEnd(),
+				CantidadInvitados = e.CantidadInvitados,
+				usuarioPropietario = new UsuarioPropietarioDTO()
+				{
+					IdUsuario = e.IdUsuarioNavigation.IdUsuario,
+					Nombre = e.IdUsuarioNavigation.Nombre
+				}
+			});
+			return ed;
+		}
+
+		/*
+		 = events.Select(e => new EventosDTO
+					{
+						IdEvento = e.IdEvento,
+						Nombre = e.Nombre,
+						Descripcion = e.Descripcion,
+						FechaEvento = e.FechaEvento,
+						FechaCreacion = e.FechaCreacion,
+						HoraFin = e.HoraFin,
+						HoraInicio = e.HoraInicio,
+						Lugar = e.Lugar,
+						Estado = e.Estado,
+						MomentosImportantes = e.MomentosImportantes,
+						CantidadInvitados = e.CantidadInvitados,
+						usuarioPropietario = new UsuarioPropietarioDTO()
+						{
+							IdUsuario = e.IdUsuarioNavigation.IdUsuario,
+							Nombre = e.IdUsuarioNavigation.Nombre
+						}
+					});*/
 
 
 

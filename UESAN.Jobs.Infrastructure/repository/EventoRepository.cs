@@ -125,7 +125,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 		//GetById
 		public async Task<Eventos> getEventosById(int id)
 		{
-			var e = await _context.Eventos.Where(x => x.IdEvento == id && x.Estado != "Eliminado").FirstOrDefaultAsync();
+			var e = await _context.Eventos.Where(x => x.IdEvento == id && x.Estado != "Eliminado").Include(y=> y.IdUsuarioNavigation).FirstOrDefaultAsync();
 			if (e == null)
 			{
 				return null;
