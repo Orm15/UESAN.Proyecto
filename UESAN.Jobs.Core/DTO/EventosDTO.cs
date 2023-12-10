@@ -82,4 +82,17 @@ namespace UESAN.Proyecto.Core.DTO
 		public int? IdUsuario { get; set; }
 
 	}
+
+	public class EventoPrincipalDTO
+	{
+		public int IdEvento { get; set; }
+
+		public string? Nombre { get; set; }
+
+		public DateTime? FechaEvento { get; set; }
+
+		public string? Lugar { get; set; }
+
+		public UsuarioPropietarioDTO usuarioPropietario { get; set; }
+	}
 }
