@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UESAN.proyecto.Infrastructure.Models;
+using UESAN.Proyecto.Core.entities;
 using UESAN.Proyecto.Core.InterfacesRepository;
 
 namespace UESAN.proyecto.Infrastructure.repository

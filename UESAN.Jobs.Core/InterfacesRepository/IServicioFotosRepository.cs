@@ -1,4 +1,4 @@
-﻿using UESAN.proyecto.Infrastructure.Models;
+﻿using UESAN.Proyecto.Core.entities;
 
 namespace UESAN.Proyecto.Core.InterfacesRepository
 {

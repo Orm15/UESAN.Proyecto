@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UESAN.proyecto.Infrastructure.Models;
 
 namespace UESAN.Proyecto.Core.entities;
 

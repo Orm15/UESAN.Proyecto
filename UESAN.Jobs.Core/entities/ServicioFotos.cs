@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using UESAN.Proyecto.Core.entities;
 
-namespace UESAN.proyecto.Infrastructure.Models;
+namespace UESAN.Proyecto.Core.entities;
 
 public partial class ServicioFotos
 {
