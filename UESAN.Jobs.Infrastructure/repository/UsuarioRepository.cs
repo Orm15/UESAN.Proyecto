@@ -35,7 +35,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 					return usu;
 				}
 				else {
-					return null;
+					return new List<Usuarios>();
 				}
 			}
 
@@ -43,7 +43,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 
 		public async Task<Usuarios> getById(int id)
 		{
-			var usu = await _context.Usuarios.Where(x => x.IdUsuario == id).FirstOrDefaultAsync();
+			var usu = await _context.Usuarios.Where(x => x.IdUsuario == id && x.Estado == "activo").FirstOrDefaultAsync();
 			if(usu == null)
 			{
 				return null;
