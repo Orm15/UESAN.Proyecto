@@ -13,6 +13,8 @@ public partial class Servicios
 
 	public string? Tipo { get; set; }
 
+	public string? Estado { get; set; }
+
 	public virtual Eventos? IdEventoNavigation { get; set; }
 
 	public virtual ICollection<ServicioFotos> ServicioFotos { get; set; } = new List<ServicioFotos>();

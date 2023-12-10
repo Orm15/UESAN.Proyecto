@@ -21,6 +21,8 @@ public partial class Videos
 
 	public int? IdServicio { get; set; }
 
+	public string? Estado { get; set; }
+
 	public virtual ICollection<Edicion> EdicionNavigation { get; set; } = new List<Edicion>();
 
 	public virtual Servicios? IdServicioNavigation { get; set; }

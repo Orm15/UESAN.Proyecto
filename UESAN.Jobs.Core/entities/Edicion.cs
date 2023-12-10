@@ -13,5 +13,9 @@ public partial class Edicion
 
 	public string? Nombre { get; set; }
 
+	public string? Descripción { get; set; }
+
+	public string? Estado { get; set; }
+
 	public virtual Videos? IdVideoNavigation { get; set; }
 }

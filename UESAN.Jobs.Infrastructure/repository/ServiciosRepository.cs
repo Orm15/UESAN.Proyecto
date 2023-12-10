@@ -42,7 +42,21 @@ namespace UESAN.proyecto.Infrastructure.repository
 			return s;
 		}
 
-		//
+		//Trae todos los servicio dado el idEvento
+		public async Task<IEnumerable<Servicios>> getAllByIdEvento(int id)
+		{
+			var ser = await _servicios.Servicios.Where(x=> x.IdEventoNavigation.IdEvento == id).Include(y=> y.IdEventoNavigation).ToListAsync();
+			if (ser.Any())
+			{
+				return ser;
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		
 
 
 	}

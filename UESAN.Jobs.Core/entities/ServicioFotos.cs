@@ -19,5 +19,7 @@ public partial class ServicioFotos
 
 	public string? Link { get; set; }
 
+	public string? Estado { get; set; }
+
 	public virtual Servicios? IdServicioNavigation { get; set; }
 }
