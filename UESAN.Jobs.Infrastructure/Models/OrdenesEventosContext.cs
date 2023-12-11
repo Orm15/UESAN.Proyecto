@@ -33,7 +33,7 @@ public partial class OrdenesEventosContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-U1V4DL6;DataBase=OrdenesEventos;TrustServerCertificate=True;Integrated Security=true");
+        => optionsBuilder.UseSqlServer("Server=LAPTOP-HP1HJ343\\SOY_YO;DataBase=OrdenesEventos;TrustServerCertificate=True;Integrated Security=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -41,7 +41,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Edicion>(entity =>
         {
-            entity.HasKey(e => e.IdEdicion).HasName("PK__Edicion__8A0A9839C74A4644");
+            entity.HasKey(e => e.IdEdicion).HasName("PK__Edicion__8A0A9839B269D65D");
 
             entity.Property(e => e.IdEdicion).HasColumnName("idEdicion");
             entity.Property(e => e.Descripción)
@@ -68,7 +68,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Eventos>(entity =>
         {
-            entity.HasKey(e => e.IdEvento).HasName("PK__Eventos__C8DC7BDAA4A90DBD");
+            entity.HasKey(e => e.IdEvento).HasName("PK__Eventos__C8DC7BDA7DA65DFF");
 
             entity.Property(e => e.IdEvento).HasColumnName("idEvento");
             entity.Property(e => e.Descripcion)
@@ -113,9 +113,8 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<ServicioFotos>(entity =>
         {
-            entity.HasKey(e => e.IdServicioFotos).HasName("PK__Servicio__A49B09EB3EEA29E5");
+            entity.HasKey(e => e.IdServicioFotos).HasName("PK__Servicio__A49B09EB92914E92");
 
-            entity.Property(e => e.IdServicioFotos).ValueGeneratedNever();
             entity.Property(e => e.Canales)
                 .HasMaxLength(40)
                 .IsFixedLength();
@@ -143,7 +142,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Servicios>(entity =>
         {
-            entity.HasKey(e => e.IdServicios).HasName("PK__Servicio__185EC2A0B2B15A67");
+            entity.HasKey(e => e.IdServicios).HasName("PK__Servicio__185EC2A03AFF5185");
 
             entity.Property(e => e.IdServicios).HasColumnName("idServicios");
             entity.Property(e => e.Estado)
@@ -167,7 +166,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Stream>(entity =>
         {
-            entity.HasKey(e => e.IdStream).HasName("PK__Stream__E1BBB4DF0883D84A");
+            entity.HasKey(e => e.IdStream).HasName("PK__Stream__E1BBB4DF61C4BFBB");
 
             entity.Property(e => e.IdStream)
                 .ValueGeneratedNever()
@@ -181,7 +180,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Usuarios>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__645723A6CEB77C07");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__645723A692BD7CEF");
 
             entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
             entity.Property(e => e.Area)
@@ -211,7 +210,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Videos>(entity =>
         {
-            entity.HasKey(e => e.IdVideo).HasName("PK__videos__D2D0AD2A24962B36");
+            entity.HasKey(e => e.IdVideo).HasName("PK__videos__D2D0AD2ABD37702B");
 
             entity.ToTable("videos");
 

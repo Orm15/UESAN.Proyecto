@@ -18,7 +18,7 @@ namespace UESAN.proyecto.API.Controllers
         }
 
         [HttpPost("CreateServicioFotos")]
-        public async Task<IActionResult> InsertServicioFotos(ServicioFotosDTO sfDTO)
+        public async Task<IActionResult> InsertServicioFotos(ServicioFotosInsertDTO sfDTO)
         {
             var result = await _servicioFotosService.Create(sfDTO);
             if (result == -1) return BadRequest(result);
@@ -48,5 +48,12 @@ namespace UESAN.proyecto.API.Controllers
             if (result == null)return NotFound();
             return Ok(result);
         }
-    }
+
+		[HttpPut]
+		public async Task<IActionResult> Update(ServicioFotosUpdateDTO uad)
+		{
+			var u = await _servicioFotosService.Update(uad);
+			return Ok(u);
+		}
+	}
 }

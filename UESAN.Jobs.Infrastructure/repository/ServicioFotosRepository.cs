@@ -30,7 +30,7 @@ namespace UESAN.proyecto.Infrastructure.repository
         //get by id
         public async Task<ServicioFotos> getById(int id)
         {
-            var sf = await _context.ServicioFotos.Where(x => x.IdServicioFotos == id).FirstOrDefaultAsync();
+            var sf = await _context.ServicioFotos.Where(x => x.IdServicioFotos == id).Include(y=> y.IdServicioNavigation.IdEventoNavigation).FirstOrDefaultAsync();
             if (sf == null) return null;
             else return sf;
         }

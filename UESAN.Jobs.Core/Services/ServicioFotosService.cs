@@ -14,12 +14,12 @@ namespace UESAN.Proyecto.Core.Services
     public class ServicioFotosService : IServicioFotosService
     {
         private readonly IServicioFotosRepository _servicioFotosRepository;
-        private readonly IEventoRepository _eventoRepository;
         private readonly IServiciosRepository _serviciosRepository;
 
-        public ServicioFotosService(IServicioFotosRepository servicioFotosRepository)
+        public ServicioFotosService(IServicioFotosRepository servicioFotosRepository,IServiciosRepository servicio)
         {
             _servicioFotosRepository = servicioFotosRepository;
+            _serviciosRepository = servicio;
         }
         //Traer todos los Servicios de fotos
         public async Task<IEnumerable<ServicioFotosDTO>> getAll()
@@ -85,11 +85,10 @@ namespace UESAN.Proyecto.Core.Services
         }
 
         //Create ServicioFotos
-        public async Task<int> Create(ServicioFotosDTO servFotDTO)
+        public async Task<int> Create(ServicioFotosInsertDTO servFotDTO)
         {
             var sf = new ServicioFotos
             {
-                IdServicioFotos = servFotDTO.IdServicioFotos,
                 IdServicio = servFotDTO.IdServicio,
                 CantidadFotos = servFotDTO.CantidadFotos,
                 Tipo = servFotDTO.TipoFoto,
@@ -104,14 +103,39 @@ namespace UESAN.Proyecto.Core.Services
         }
 
         //Update ServicioFotos
-        public async Task<bool> Update(ServicioFotosDTO servFotDTO)
+        public async Task<bool> Update(ServicioFotosUpdateDTO servFotDTO)
         {
             DateTime fechaO = DateTime.Now;
+            string est = "Activo";
+            var objeto = await _serviciosRepository.getById((int)servFotDTO.IdServicio);
+            DateTime fechaEvento = (DateTime)objeto.IdEventoNavigation.FechaEvento;
+            int rem = (fechaEvento - fechaO).Days;
+            if (rem <= 2) est = "Inactivo";
+            var sf = new ServicioFotos
+            {
+                IdServicioFotos = servFotDTO.IdServicioFotos,
+                IdServicio = servFotDTO.IdServicio,
+                CantidadFotos = servFotDTO.CantidadFotos,
+                Tipo = servFotDTO.TipoFoto,
+                PesonaObjetivo = servFotDTO.PesonaObjetivo,
+                Canales = servFotDTO.Canales,
+                Link = servFotDTO.Link,
+                Estado = est
+            };
+            var sfd = await _servicioFotosRepository.update(sf);
+            return sfd;
+        }
+
+
+
+		/*
+         *  DateTime fechaO = DateTime.Now;
             int num;
             string est = "Activo";
             if (servFotDTO.IdServicio == null) num = -1;
             else num = (int)servFotDTO.IdServicio;
-            Servicios s = await _serviciosRepository.getById(num);
+            var s = await _serviciosRepository.getById(num);
+            if (s == null) return false;
             if (s.IdEvento == null) num = -1;
             else num = (int)s.IdEvento;
             Eventos es = await _eventoRepository.getEventosById(num);
@@ -129,7 +153,6 @@ namespace UESAN.Proyecto.Core.Services
                 Estado = est
             };
             var sfd = await _servicioFotosRepository.update(sf);
-            return sfd;
-        }
+            return sfd;*/
     }
 }
