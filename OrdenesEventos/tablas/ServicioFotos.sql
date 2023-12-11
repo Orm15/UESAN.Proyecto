@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[ServicioFotos]
 (
-	[IdServicioFotos] INT NOT NULL PRIMARY KEY, 
+	[IdServicioFotos] INT NOT NULL PRIMARY KEY identity, 
     [IdServicio] INT NULL, 
     [CantidadFotos] NCHAR(10) NULL, 
     [Tipo] NCHAR(10) NULL, 

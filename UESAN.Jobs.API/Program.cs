@@ -29,7 +29,8 @@ builder.Services.AddTransient<IVideosRepository, VideosRepository>();
 builder.Services.AddTransient<IVideosServices, VideosServices>();
 builder.Services.AddTransient<IEdicionRepository, EdicionRepository>();
 builder.Services.AddTransient<IEdicionService, EdicionService>();
-
+builder.Services.AddTransient<IServicioFotosRepository, ServicioFotosRepository>();
+builder.Services.AddTransient<IServicioFotosService, ServicioFotosService>();
 
 
 
