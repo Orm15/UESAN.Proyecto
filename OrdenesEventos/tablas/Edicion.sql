@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Edicion]
 (
-	[idEdicion] INT NOT NULL PRIMARY KEY, 
+	[idEdicion] INT NOT NULL PRIMARY KEY identity, 
     [idVideo] INT NULL, 
     [Musica] NCHAR(30) NULL, 
     [nombre] NCHAR(40) NULL,
