@@ -25,6 +25,9 @@ builder.Services.AddTransient<IEventoRepository,EventoRepository>();
 builder.Services.AddTransient<IEventosService, EventosService>();
 builder.Services.AddTransient<IServiciosRepository, ServiciosRepository>();
 builder.Services.AddTransient<IServicioService, ServicioService>();
+builder.Services.AddTransient<IVideosRepository, VideosRepository>();
+builder.Services.AddTransient<IVideosServices, VideosServices>();
+
 
 
 
