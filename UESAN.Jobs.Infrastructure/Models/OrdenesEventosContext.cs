@@ -41,11 +41,9 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Edicion>(entity =>
         {
-            entity.HasKey(e => e.IdEdicion).HasName("PK__Edicion__8A0A98394D80130A");
+            entity.HasKey(e => e.IdEdicion).HasName("PK__Edicion__8A0A9839C74A4644");
 
-            entity.Property(e => e.IdEdicion)
-                .ValueGeneratedNever()
-                .HasColumnName("idEdicion");
+            entity.Property(e => e.IdEdicion).HasColumnName("idEdicion");
             entity.Property(e => e.Descripción)
                 .HasMaxLength(100)
                 .IsFixedLength()
@@ -70,7 +68,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Eventos>(entity =>
         {
-            entity.HasKey(e => e.IdEvento).HasName("PK__Eventos__C8DC7BDA33049AA3");
+            entity.HasKey(e => e.IdEvento).HasName("PK__Eventos__C8DC7BDAA4A90DBD");
 
             entity.Property(e => e.IdEvento).HasColumnName("idEvento");
             entity.Property(e => e.Descripcion)
@@ -115,7 +113,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<ServicioFotos>(entity =>
         {
-            entity.HasKey(e => e.IdServicioFotos).HasName("PK__Servicio__A49B09EBB61C3515");
+            entity.HasKey(e => e.IdServicioFotos).HasName("PK__Servicio__A49B09EB3EEA29E5");
 
             entity.Property(e => e.IdServicioFotos).ValueGeneratedNever();
             entity.Property(e => e.Canales)
@@ -145,7 +143,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Servicios>(entity =>
         {
-            entity.HasKey(e => e.IdServicios).HasName("PK__Servicio__185EC2A0C96DFBB5");
+            entity.HasKey(e => e.IdServicios).HasName("PK__Servicio__185EC2A0B2B15A67");
 
             entity.Property(e => e.IdServicios).HasColumnName("idServicios");
             entity.Property(e => e.Estado)
@@ -169,7 +167,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Stream>(entity =>
         {
-            entity.HasKey(e => e.IdStream).HasName("PK__Stream__E1BBB4DF9A047547");
+            entity.HasKey(e => e.IdStream).HasName("PK__Stream__E1BBB4DF0883D84A");
 
             entity.Property(e => e.IdStream)
                 .ValueGeneratedNever()
@@ -183,7 +181,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Usuarios>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__645723A61DB99A75");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__645723A6CEB77C07");
 
             entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
             entity.Property(e => e.Area)
@@ -213,7 +211,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Videos>(entity =>
         {
-            entity.HasKey(e => e.IdVideo).HasName("PK__videos__D2D0AD2A66B15F3E");
+            entity.HasKey(e => e.IdVideo).HasName("PK__videos__D2D0AD2A24962B36");
 
             entity.ToTable("videos");
 
