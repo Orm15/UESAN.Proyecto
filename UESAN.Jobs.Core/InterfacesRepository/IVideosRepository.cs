@@ -12,7 +12,6 @@ namespace UESAN.Proyecto.Core.InterfacesRepository
 		Task<string> getLink(int id);
 		Task<Videos> Insert(Videos sv);
 		Task<bool> update(Videos sv);
-		Task<DateTime?> getFechaEventoByIdVideo(int id);
 		Task<bool> CambiarEstadoEdicion(int id);
 	}
 }

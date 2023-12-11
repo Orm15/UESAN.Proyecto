@@ -30,7 +30,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 		//get by id
 		public async Task<Videos> getById(int id)
 		{
-			var sv = await _context.Videos.Where(x => x.IdVideo == id && x.Estado == "activo" ).FirstOrDefaultAsync();
+			var sv = await _context.Videos.Where(x => x.IdVideo == id && x.Estado == "activo" ).Include(y=> y.IdServicioNavigation.IdEventoNavigation).FirstOrDefaultAsync();
 			if (sv == null) return null;
 			else return sv;
 		}
@@ -90,7 +90,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 			return rows > 0;
 		}
 
-		public async Task<DateTime?> getFechaEventoByIdVideo(int id)
+		/*public async Task<DateTime?> getFechaEventoByIdVideo(int id)
 		{
 			using (var nuevoContexto = new OrdenesEventosContext())
 			{
@@ -109,7 +109,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 				}
 			}
 		}
-
+		*/
 		public async Task<bool> CambiarEstadoEdicion(int id)
 		{
 			var video = await _context.Videos.Where(x=> x.IdVideo == id).FirstOrDefaultAsync();

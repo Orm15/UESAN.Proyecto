@@ -13,10 +13,12 @@ namespace UESAN.Proyecto.Core.Services
     public class EdicionService : IEdicionService
 	{
 		private readonly IEdicionRepository _edicionRepo;
+		private readonly IVideosRepository _videiosRepo;
 
-		public EdicionService(IEdicionRepository edicionRepo)
+		public EdicionService(IEdicionRepository edicionRepo, IVideosRepository videiosServices)
 		{
 			_edicionRepo = edicionRepo;
+			_videiosRepo = videiosServices;
 		}
 
 		//Insert Edicion
@@ -94,10 +96,11 @@ namespace UESAN.Proyecto.Core.Services
 		public async Task<bool> update(EdicionUpdateDTO edicionUpdateDTO)
 		{
 			//Esto tambien tiene un margen de edicion.
-			DateTime fechaEvento = (DateTime)await _edicionRepo.getFechaEventoByIdEdicion(edicionUpdateDTO.IdEdicion);
+			DateTime fechaEvento = (DateTime)(await _videiosRepo.getById((int)edicionUpdateDTO.IdVideo))
+				.IdServicioNavigation.IdEventoNavigation.FechaEvento;
 			DateTime fechaActual = DateTime.Now;
 			int diferencia = (fechaEvento - fechaActual).Days;
-			if (diferencia > 4)
+			if (diferencia >= 4)
 			{
 				var edicion = new Edicion
 				{

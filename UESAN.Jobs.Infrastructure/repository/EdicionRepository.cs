@@ -72,7 +72,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 			return rows > 0;
 		}
 
-		public async Task<DateTime?> getFechaEventoByIdEdicion(int id)
+		/*public async Task<DateTime?> getFechaEventoByIdEdicion(int id)
 		{
 			using (var nuevoContexto = new OrdenesEventosContext())
 			{
@@ -92,7 +92,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 				}
 			}
 		}
-
+		*/
 
 
 	}

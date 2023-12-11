@@ -13,10 +13,12 @@ namespace UESAN.Proyecto.Core.Services
     public class VideosServices : IVideosServices
 	{
 		private readonly IVideosRepository _videosRepository;
+		private readonly IServiciosRepository _serviciosRepository;
 
-		public VideosServices(IVideosRepository videosRepository)
+		public VideosServices(IVideosRepository videosRepository, IServiciosRepository serviciosRepository)
 		{
 			_videosRepository = videosRepository;
+			_serviciosRepository = serviciosRepository;
 		}
 		//Crear video
 		public async Task<int> InsertVideo(VideosInsertDTO videosInsertDTO)
@@ -132,9 +134,9 @@ namespace UESAN.Proyecto.Core.Services
 		//update //corregir
 		public async Task<bool> update(VideosUpdateDTO videosUpdateDTO)
 		{
-			DateTime fechaEvento = (DateTime)await _videosRepository.getFechaEventoByIdVideo(videosUpdateDTO.IdVideo);
+			DateTime fec = (DateTime)(await _serviciosRepository.getById((int)videosUpdateDTO.IdServicio)).IdEventoNavigation.FechaEvento;
 			DateTime fechaActual = DateTime.Now;
-			int diferencia = (fechaEvento - fechaActual).Days;
+			int diferencia = (fec - fechaActual).Days;
 			if (diferencia >= 4)
 			{
 				var v = new Videos
