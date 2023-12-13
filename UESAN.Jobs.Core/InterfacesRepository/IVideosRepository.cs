@@ -13,5 +13,7 @@ namespace UESAN.Proyecto.Core.InterfacesRepository
 		Task<Videos> Insert(Videos sv);
 		Task<bool> update(Videos sv);
 		Task<bool> CambiarEstadoEdicion(int id);
+
+		Task<IEnumerable<Videos>> getByArea(string area);
 	}
 }

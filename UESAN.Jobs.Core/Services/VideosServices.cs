@@ -86,6 +86,9 @@ namespace UESAN.Proyecto.Core.Services
 			else return null;
 		}
 
+		//VIDEO DADO UN EVENTO
+		//VIDEO DADO UN AREA
+
 		//getByIdSerivcio
 		public async Task<IEnumerable<VideosDTO>> GetBYIdServicio(int id)
 		{
@@ -160,6 +163,28 @@ namespace UESAN.Proyecto.Core.Services
 			}
 
 		}
+		//get by area
+		public async Task<IEnumerable<VideosDTO>> GetByArea(string area)
+		{
+			var video = await _videosRepository.getByArea(area);
+			if (video != null)
+			{
+				var vidto = video.Select(x => new VideosDTO
+				{
+					IdServicio = x.IdServicio,
+					Edicion = x.Edicion,
+					Estado = x.Estado,
+					IdVideo = x.IdVideo,
+					Link = x.Link,
+					Nombre = x.Nombre,
+					NombreObjetivo = x.NombreObjetivo,
+					FechaSubida = x.FechaSubida,
+					LugarFilmacion = x.LugarFilmacion,
+				});
+				return vidto;
+			}
+			else { return null; }
+		}
 
 		//delete
 		public async Task<bool> delete(int id)
@@ -171,6 +196,9 @@ namespace UESAN.Proyecto.Core.Services
 		{
 			return await _videosRepository.CambiarEstadoEdicion(id);
 		}
+
+
+
 
 
 

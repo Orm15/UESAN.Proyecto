@@ -131,5 +131,15 @@ namespace UESAN.proyecto.Infrastructure.repository
 			}
 		}
 
+		//get by area
+
+		public async Task<IEnumerable<Videos>> getByArea(string area)
+		{
+			var videos = await _context.Videos.Where(x => x.IdServicioNavigation.IdEventoNavigation.IdUsuarioNavigation.Area == area)
+				.Include(y => y.IdServicioNavigation.IdEventoNavigation.IdUsuarioNavigation).ToListAsync();
+			if (videos.Any()) return videos;
+			else return null;
+		}
+
 	}
 }

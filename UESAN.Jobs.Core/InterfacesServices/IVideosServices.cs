@@ -14,5 +14,7 @@ namespace UESAN.Proyecto.Core.InterfacesServices
 
         Task<bool> CmabiarEstadoEdicion(int id);
 
+        Task<IEnumerable<VideosDTO>> GetByArea(string area);
+
 	}
 }

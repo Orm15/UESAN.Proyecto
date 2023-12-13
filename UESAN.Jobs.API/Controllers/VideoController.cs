@@ -80,6 +80,20 @@ namespace UESAN.proyecto.API.Controllers
 			}
 		}
 
+		[HttpGet("GetByIdArea{area}/area")]
+		public async Task<ActionResult> getByArea(string area)
+		{
+			var u = await _videos.GetByArea(area);
+			if (u == null)
+			{
+				return NotFound(" - No hay video aun para esta area - ");
+			}
+			else
+			{
+				return Ok(u);
+			}
+		}
+
 		[HttpPut]
 		public async Task<IActionResult> Update(VideosUpdateDTO uad)
 		{
