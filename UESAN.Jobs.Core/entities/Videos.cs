@@ -25,5 +25,7 @@ public partial class Videos
 
 	public virtual ICollection<Edicion> EdicionNavigation { get; set; } = new List<Edicion>();
 
+	public virtual ICollection<EscenasVideo> EscenasVideo { get; set; } = new List<EscenasVideo>();
+
 	public virtual Servicios? IdServicioNavigation { get; set; }
 }

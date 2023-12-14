@@ -15,6 +15,8 @@ public partial class Servicios
 
 	public string? Estado { get; set; }
 
+	public virtual ICollection<CircuitoCerrado> CircuitoCerrado { get; set; } = new List<CircuitoCerrado>();
+
 	public virtual Eventos? IdEventoNavigation { get; set; }
 
 	public virtual ICollection<ServicioFotos> ServicioFotos { get; set; } = new List<ServicioFotos>();

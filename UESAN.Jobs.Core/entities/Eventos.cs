@@ -31,5 +31,7 @@ public partial class Eventos
 
 	public virtual Usuarios? IdUsuarioNavigation { get; set; }
 
+	public virtual ICollection<ServicioEdicionVideo> ServicioEdicionVideo { get; set; } = new List<ServicioEdicionVideo>();
+
 	public virtual ICollection<Servicios> Servicios { get; set; } = new List<Servicios>();
 }

@@ -22,4 +22,6 @@ public partial class Usuarios
 	public string? Salt { get; set; }
 
 	public virtual ICollection<Eventos> Eventos { get; set; } = new List<Eventos>();
+
+	public virtual ICollection<ServicioEdicionVideo> ServicioEdicionVideo { get; set; } = new List<ServicioEdicionVideo>();
 }
