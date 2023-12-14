@@ -7,4 +7,32 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="estado" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="60057ffe-cd24-4ae6-a78b-c927d4efd8ee" ChangeDateTime="12/14/2023 11:56:06">
+    <Property Name="ElementName" Value="[dbo].[CircuitoCerrado].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CircuitoCerrado]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IdCircuitoCerrado" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4b8d3067-644a-4584-bf32-29ebf7e45388" ChangeDateTime="12/14/2023 12:01:45">
+    <Property Name="ElementName" Value="[dbo].[ServicioEdiciònVideo].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[ServicioEdiciònVideo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idServicioEdicionVideo" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ddd7f914-0d84-4b3d-b3f9-7810ee5f5331" ChangeDateTime="12/14/2023 18:29:12">
+    <Property Name="ElementName" Value="[dbo].[EscenasVideo].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[EscenasVideo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idEscena" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7fde0a5a-d3ce-43b4-8c51-b8ac4e98f830" ChangeDateTime="12/14/2023 18:41:09">
+    <Property Name="ElementName" Value="[dbo].[EscenasVideo].[idServicioEdicion]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[EscenasVideo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="idServicioEdicionVideo" />
+  </Operation>
 </Operations>

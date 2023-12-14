@@ -64,6 +64,9 @@
     <Build Include="tablas\ServicioFotos.sql" />
     <Build Include="tablas\Edicion.sql" />
     <Build Include="tablas\Stream.sql" />
+    <Build Include="tablas\CircuitoCerrado.sql" />
+    <Build Include="tablas\ServicioEdicionVideo.sql" />
+    <Build Include="tablas\EscenasVideo.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="OrdenesEventos.refactorlog" />
