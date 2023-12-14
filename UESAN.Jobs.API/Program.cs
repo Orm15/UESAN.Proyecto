@@ -31,6 +31,8 @@ builder.Services.AddTransient<IEdicionRepository, EdicionRepository>();
 builder.Services.AddTransient<IEdicionService, EdicionService>();
 builder.Services.AddTransient<IServicioFotosRepository, ServicioFotosRepository>();
 builder.Services.AddTransient<IServicioFotosService, ServicioFotosService>();
+builder.Services.AddTransient<ICircuitoCerradoRepository, CircuitoCerradoRepository>();
+builder.Services.AddTransient<ICircuitoCerradoService, CircuitoCerradoService>();
 
 
 
