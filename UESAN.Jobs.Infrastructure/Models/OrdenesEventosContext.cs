@@ -17,9 +17,15 @@ public partial class OrdenesEventosContext : DbContext
     {
     }
 
+    public virtual DbSet<CircuitoCerrado> CircuitoCerrado { get; set; }
+
     public virtual DbSet<Edicion> Edicion { get; set; }
 
+    public virtual DbSet<EscenasVideo> EscenasVideo { get; set; }
+
     public virtual DbSet<Eventos> Eventos { get; set; }
+
+    public virtual DbSet<ServicioEdicionVideo> ServicioEdicionVideo { get; set; }
 
     public virtual DbSet<ServicioFotos> ServicioFotos { get; set; }
 
@@ -39,9 +45,38 @@ public partial class OrdenesEventosContext : DbContext
     {
         modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
 
+        modelBuilder.Entity<CircuitoCerrado>(entity =>
+        {
+            entity.HasKey(e => e.IdCircuitoCerrado).HasName("PK__Circuito__2144FF1FD30CBE41");
+
+            entity.Property(e => e.Angulos)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Estado)
+                .HasMaxLength(15)
+                .IsFixedLength();
+            entity.Property(e => e.Guardar)
+                .HasMaxLength(10)
+                .IsFixedLength();
+            entity.Property(e => e.IdServicio).HasColumnName("idServicio");
+            entity.Property(e => e.Link)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.NumeroAngulos)
+                .HasMaxLength(10)
+                .IsFixedLength();
+            entity.Property(e => e.NumeroCamaras)
+                .HasMaxLength(10)
+                .IsFixedLength();
+
+            entity.HasOne(d => d.IdServicioNavigation).WithMany(p => p.CircuitoCerrado)
+                .HasForeignKey(d => d.IdServicio)
+                .HasConstraintName("FK__CircuitoC__idSer__35BCFE0A");
+        });
+
         modelBuilder.Entity<Edicion>(entity =>
         {
-            entity.HasKey(e => e.IdEdicion).HasName("PK__Edicion__8A0A9839B269D65D");
+            entity.HasKey(e => e.IdEdicion).HasName("PK__Edicion__8A0A9839B5196850");
 
             entity.Property(e => e.IdEdicion).HasColumnName("idEdicion");
             entity.Property(e => e.Descripción)
@@ -63,12 +98,55 @@ public partial class OrdenesEventosContext : DbContext
 
             entity.HasOne(d => d.IdVideoNavigation).WithMany(p => p.EdicionNavigation)
                 .HasForeignKey(d => d.IdVideo)
-                .HasConstraintName("FK__Edicion__idVideo__300424B4");
+                .HasConstraintName("FK__Edicion__idVideo__36B12243");
+        });
+
+        modelBuilder.Entity<EscenasVideo>(entity =>
+        {
+            entity.HasKey(e => e.IdEscena).HasName("PK__EscenasV__BED662CA6866A8BB");
+
+            entity.Property(e => e.IdEscena).HasColumnName("idEscena");
+            entity.Property(e => e.Cambios)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.DescripcionEscena)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Estado)
+                .HasMaxLength(15)
+                .IsFixedLength()
+                .HasColumnName("estado");
+            entity.Property(e => e.IdServicioEdicionVideo).HasColumnName("idServicioEdicionVideo");
+            entity.Property(e => e.IdVideo).HasColumnName("idVideo");
+            entity.Property(e => e.LinkVideo)
+                .HasMaxLength(100)
+                .IsFixedLength()
+                .HasColumnName("linkVideo");
+            entity.Property(e => e.NombreEscena)
+                .HasMaxLength(50)
+                .IsFixedLength()
+                .HasColumnName("nombreEscena");
+            entity.Property(e => e.NombreVideo)
+                .HasMaxLength(50)
+                .IsFixedLength()
+                .HasColumnName("nombreVideo");
+            entity.Property(e => e.Tiempo)
+                .HasMaxLength(20)
+                .IsFixedLength()
+                .HasColumnName("tiempo");
+
+            entity.HasOne(d => d.IdServicioEdicionVideoNavigation).WithMany(p => p.EscenasVideo)
+                .HasForeignKey(d => d.IdServicioEdicionVideo)
+                .HasConstraintName("FK__EscenasVi__idSer__37A5467C");
+
+            entity.HasOne(d => d.IdVideoNavigation).WithMany(p => p.EscenasVideo)
+                .HasForeignKey(d => d.IdVideo)
+                .HasConstraintName("FK__EscenasVi__idVid__38996AB5");
         });
 
         modelBuilder.Entity<Eventos>(entity =>
         {
-            entity.HasKey(e => e.IdEvento).HasName("PK__Eventos__C8DC7BDA7DA65DFF");
+            entity.HasKey(e => e.IdEvento).HasName("PK__Eventos__C8DC7BDA330BA5B6");
 
             entity.Property(e => e.IdEvento).HasColumnName("idEvento");
             entity.Property(e => e.Descripcion)
@@ -108,12 +186,59 @@ public partial class OrdenesEventosContext : DbContext
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Eventos)
                 .HasForeignKey(d => d.IdUsuario)
-                .HasConstraintName("FK__Eventos__idUsuar__30F848ED");
+                .HasConstraintName("FK__Eventos__idUsuar__398D8EEE");
+        });
+
+        modelBuilder.Entity<ServicioEdicionVideo>(entity =>
+        {
+            entity.HasKey(e => e.IdServicioEdicionVideo).HasName("PK__Servicio__62C3180478615907");
+
+            entity.Property(e => e.IdServicioEdicionVideo).HasColumnName("idServicioEdicionVideo");
+            entity.Property(e => e.CarreraCargoEmpresa)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Destino)
+                .HasMaxLength(20)
+                .IsFixedLength();
+            entity.Property(e => e.DuracionVideo)
+                .HasMaxLength(15)
+                .IsFixedLength();
+            entity.Property(e => e.Estado)
+                .HasMaxLength(15)
+                .IsFixedLength();
+            entity.Property(e => e.FormatoVideo)
+                .HasMaxLength(20)
+                .IsFixedLength();
+            entity.Property(e => e.IdEvento).HasColumnName("idEvento");
+            entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
+            entity.Property(e => e.Logos)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.Musica)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.NombreEntrevistado)
+                .HasMaxLength(100)
+                .IsFixedLength();
+            entity.Property(e => e.NombreProyecto)
+                .HasMaxLength(50)
+                .IsFixedLength();
+            entity.Property(e => e.Objetivo)
+                .HasMaxLength(80)
+                .IsFixedLength();
+
+            entity.HasOne(d => d.IdEventoNavigation).WithMany(p => p.ServicioEdicionVideo)
+                .HasForeignKey(d => d.IdEvento)
+                .HasConstraintName("FK__ServicioE__idEve__3A81B327");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.ServicioEdicionVideo)
+                .HasForeignKey(d => d.IdUsuario)
+                .HasConstraintName("FK__ServicioE__idUsu__3B75D760");
         });
 
         modelBuilder.Entity<ServicioFotos>(entity =>
         {
-            entity.HasKey(e => e.IdServicioFotos).HasName("PK__Servicio__A49B09EB92914E92");
+            entity.HasKey(e => e.IdServicioFotos).HasName("PK__Servicio__A49B09EB582A8796");
 
             entity.Property(e => e.Canales)
                 .HasMaxLength(40)
@@ -137,12 +262,12 @@ public partial class OrdenesEventosContext : DbContext
 
             entity.HasOne(d => d.IdServicioNavigation).WithMany(p => p.ServicioFotos)
                 .HasForeignKey(d => d.IdServicio)
-                .HasConstraintName("FK__ServicioF__IdSer__31EC6D26");
+                .HasConstraintName("FK__ServicioF__IdSer__3C69FB99");
         });
 
         modelBuilder.Entity<Servicios>(entity =>
         {
-            entity.HasKey(e => e.IdServicios).HasName("PK__Servicio__185EC2A03AFF5185");
+            entity.HasKey(e => e.IdServicios).HasName("PK__Servicio__185EC2A093FDDA80");
 
             entity.Property(e => e.IdServicios).HasColumnName("idServicios");
             entity.Property(e => e.Estado)
@@ -161,12 +286,12 @@ public partial class OrdenesEventosContext : DbContext
 
             entity.HasOne(d => d.IdEventoNavigation).WithMany(p => p.Servicios)
                 .HasForeignKey(d => d.IdEvento)
-                .HasConstraintName("FK__Servicios__idEve__32E0915F");
+                .HasConstraintName("FK__Servicios__idEve__3D5E1FD2");
         });
 
         modelBuilder.Entity<Stream>(entity =>
         {
-            entity.HasKey(e => e.IdStream).HasName("PK__Stream__E1BBB4DF61C4BFBB");
+            entity.HasKey(e => e.IdStream).HasName("PK__Stream__E1BBB4DFF93F53CA");
 
             entity.Property(e => e.IdStream)
                 .ValueGeneratedNever()
@@ -175,12 +300,12 @@ public partial class OrdenesEventosContext : DbContext
 
             entity.HasOne(d => d.IdServiciosNavigation).WithMany(p => p.Stream)
                 .HasForeignKey(d => d.IdServicios)
-                .HasConstraintName("FK__Stream__idServic__33D4B598");
+                .HasConstraintName("FK__Stream__idServic__3E52440B");
         });
 
         modelBuilder.Entity<Usuarios>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__645723A692BD7CEF");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuarios__645723A67466F996");
 
             entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
             entity.Property(e => e.Area)
@@ -210,7 +335,7 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Videos>(entity =>
         {
-            entity.HasKey(e => e.IdVideo).HasName("PK__videos__D2D0AD2ABD37702B");
+            entity.HasKey(e => e.IdVideo).HasName("PK__videos__D2D0AD2AAE917F96");
 
             entity.ToTable("videos");
 
@@ -242,7 +367,7 @@ public partial class OrdenesEventosContext : DbContext
 
             entity.HasOne(d => d.IdServicioNavigation).WithMany(p => p.Videos)
                 .HasForeignKey(d => d.IdServicio)
-                .HasConstraintName("FK__videos__idServic__34C8D9D1");
+                .HasConstraintName("FK__videos__idServic__3F466844");
         });
 
         OnModelCreatingPartial(modelBuilder);
