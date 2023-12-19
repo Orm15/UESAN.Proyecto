@@ -33,6 +33,10 @@ builder.Services.AddTransient<IServicioFotosRepository, ServicioFotosRepository>
 builder.Services.AddTransient<IServicioFotosService, ServicioFotosService>();
 builder.Services.AddTransient<ICircuitoCerradoRepository, CircuitoCerradoRepository>();
 builder.Services.AddTransient<ICircuitoCerradoService, CircuitoCerradoService>();
+builder.Services.AddTransient<IEscenasVideoRepository, EscenasVideoRepository>();
+builder.Services.AddTransient<IEscenaVideoService, EscenaVideoService>();
+builder.Services.AddTransient<IServicioEdicionVideoRepository,ServicioEdicionVideoRepository>();
+builder.Services.AddTransient<IServicioEdicionVideoService, ServicioEdicionVideoService>();
 
 
 
@@ -43,6 +47,20 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 		.JsonSerializerOptions
 		.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
+
+builder.Services.AddCors(options =>
+{
+	options.AddDefaultPolicy(builder =>
+	{
+		builder
+			//.WithOrigins("aquivatulocalhost_o_dominio_url")
+			.AllowAnyOrigin()
+			.AllowAnyMethod()
+			.AllowAnyHeader();
+	});
+});
+
+builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
