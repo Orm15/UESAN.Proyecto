@@ -53,7 +53,7 @@ builder.Services.AddCors(options =>
 	options.AddDefaultPolicy(builder =>
 	{
 		builder
-			//.WithOrigins("aquivatulocalhost_o_dominio_url")
+			.WithOrigins("http://localhost:9000")
 			.AllowAnyOrigin()
 			.AllowAnyMethod()
 			.AllowAnyHeader();
@@ -79,7 +79,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
-
+app.UseCors();
 app.MapControllers();
 
 app.Run();
