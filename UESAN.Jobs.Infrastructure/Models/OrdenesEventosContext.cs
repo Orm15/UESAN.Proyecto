@@ -39,7 +39,7 @@ public partial class OrdenesEventosContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=HEAVENFISH;DataBase=OrdenesEventos;TrustServerCertificate=True;Integrated Security=true");
+        => optionsBuilder.UseSqlServer("Server=HeavenFish;DataBase=OrdenesEventos;TrustServerCertificate=True;Integrated Security=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -291,11 +291,9 @@ public partial class OrdenesEventosContext : DbContext
 
         modelBuilder.Entity<Stream>(entity =>
         {
-            entity.HasKey(e => e.IdStream).HasName("PK__Stream__E1BBB4DF804BF2C7");
+            entity.HasKey(e => e.IdStream).HasName("PK__tmp_ms_x__E1BBB4DF91C6379C");
 
-            entity.Property(e => e.IdStream)
-                .ValueGeneratedNever()
-                .HasColumnName("idStream");
+            entity.Property(e => e.IdStream).HasColumnName("idStream");
             entity.Property(e => e.Angulo)
                 .HasMaxLength(50)
                 .IsFixedLength();
@@ -317,7 +315,7 @@ public partial class OrdenesEventosContext : DbContext
 
             entity.HasOne(d => d.IdServiciosNavigation).WithMany(p => p.Stream)
                 .HasForeignKey(d => d.IdServicios)
-                .HasConstraintName("FK__Stream__idServic__5165187F");
+                .HasConstraintName("FK__Stream__idServic__6754599E");
         });
 
         modelBuilder.Entity<Usuarios>(entity =>
