@@ -1,4 +1,4 @@
-namespace UESAN.Jobs.API
+namespace UESAN.proyecto.API
 {
     public class WeatherForecast
     {

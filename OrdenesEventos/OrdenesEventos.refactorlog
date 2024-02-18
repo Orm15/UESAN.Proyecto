@@ -35,4 +35,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="idServicioEdicionVideo" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="6521fdb4-68ac-4b62-b2f6-db6fcb069867" ChangeDateTime="02/18/2024 07:52:24">
+    <Property Name="ElementName" Value="[dbo].[Stream].[CamNum]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Stream]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Num_Cam" />
+  </Operation>
 </Operations>
