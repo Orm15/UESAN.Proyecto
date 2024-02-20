@@ -58,6 +58,14 @@ namespace UESAN.proyecto.API.Controllers
 			return Ok(u);
 		}
 
+		[HttpGet("GetByIdServicio = {id}/Servicio")]
+		public async Task<ActionResult> getByIdServicio(int id)
+		{
+			var u = await _circuitoCerradoService.getByIdServicio(id);
+			if (u == null) return NotFound(" - No hay CC con ese id - ");
+			else return Ok(u);
+		}
+
 
 		[HttpDelete]
 		public async Task<IActionResult> Delete(int id)

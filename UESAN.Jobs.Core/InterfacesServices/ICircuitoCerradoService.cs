@@ -10,5 +10,7 @@ namespace UESAN.Proyecto.Core.InterfacesServices
         Task<CircuitoCerradoDTO> getbYIdEvento(int id);
         Task<int> InsertCC(CircuitoCerradoInsertDTO circuitoCerradoInsert);
         Task<bool> update(CircuitoCerradoUpdateDTO c);
-    }
+        Task<CircuitoCerradoDTO> getByIdServicio(int id);
+
+	}
 }

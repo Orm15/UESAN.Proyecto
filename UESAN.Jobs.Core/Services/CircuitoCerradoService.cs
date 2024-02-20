@@ -132,6 +132,30 @@ namespace UESAN.Proyecto.Core.Services
 
 		}
 
+		public async Task<CircuitoCerradoDTO> getByIdServicio(int id)
+		{
+			var x = await _circuitoCerradoRepository.getByIdServicio(id);
+			if(x!= null)
+			{
+				var vdto = new CircuitoCerradoDTO
+				{
+					IdServicio = x.IdServicio,
+					IdCircuitoCerrado = x.IdCircuitoCerrado,
+					NumeroCamaras = x.NumeroCamaras,
+					NumeroAngulos = x.NumeroAngulos,
+					Link = x.Link,
+					Guardar = x.Guardar,
+					Angulos = x.Angulos,
+
+				};
+				return vdto;
+			}
+			else
+			{
+				return null;
+			}
+		}
+
 		public async Task<bool> delete(int id)
 		{
 			return await _circuitoCerradoRepository.delete(id);
