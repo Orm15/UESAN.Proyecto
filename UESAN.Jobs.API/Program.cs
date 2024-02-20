@@ -37,6 +37,8 @@ builder.Services.AddTransient<IEscenasVideoRepository, EscenasVideoRepository>()
 builder.Services.AddTransient<IEscenaVideoService, EscenaVideoService>();
 builder.Services.AddTransient<IServicioEdicionVideoRepository,ServicioEdicionVideoRepository>();
 builder.Services.AddTransient<IServicioEdicionVideoService, ServicioEdicionVideoService>();
+builder.Services.AddTransient<IStreamRepository, StreamRepository>();
+builder.Services.AddTransient<IStreamService, StreamService>();
 
 
 
