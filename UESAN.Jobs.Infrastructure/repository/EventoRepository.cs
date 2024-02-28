@@ -104,7 +104,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 			}
 			else
 			{
-				string est = e.Estado;
+				string est = e.Estado.Trim();
 				if (est == "Abierto")
 				{
 					est = "Confirmado";
