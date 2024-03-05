@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using UESAN.Proyecto.Core.DTO;
@@ -19,6 +20,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 		//Crear Eventos //Debe retornar el idEvento
 		[HttpPost("CreateEventos")]
+		[Authorize]
 		public async Task<IActionResult> InsertEvento(EventoInsertDTO ucd)
 		{
 			var result = await _eventosService.InsertEvento(ucd);
@@ -27,6 +29,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetAll")]
+		[Authorize]
 		public async Task<ActionResult> GetAllEventos()
 		{
 			var u = await _eventosService.getAll();
@@ -41,6 +44,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetAllByUsuarioCreador")]
+		[Authorize]
 		public async Task<ActionResult> GetAllEventosByUsuarioCreador(int id)
 		{
 			var u = await _eventosService.GetEventosByUsuarioCreador(id);
@@ -55,6 +59,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetAllByUsuarioVizualizador")]
+		[Authorize]
 		public async Task<ActionResult> GetAllEventosByUsuarioVizualizador(int id)
 		{
 			var u = await _eventosService.getEventosByUsuarioVizualizador(id);
@@ -69,6 +74,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetAllByUsuarioVizualizadorAndcreador")]
+		[Authorize]
 		public async Task<ActionResult> GetAllEventosByUsuarioVizualizadorAndCreador(int id)
 		{
 			var u = await _eventosService.getEventosByUsuarioCreadorOrVizualizador(id);
@@ -83,6 +89,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetEventosByEstado")]
+		[Authorize]
 		public async Task<ActionResult> GetEventosByEstado(string estado)
 		{
 			var u = await _eventosService.EventosByEstado(estado);
@@ -97,6 +104,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpPost("CambiarEstadoEvento")]
+		[Authorize]
 		public async Task<IActionResult> CambiarEstadoEvento(int id)
 		{
 			var result = await _eventosService.CambiarEstado(id);
@@ -107,6 +115,7 @@ namespace UESAN.proyecto.API.Controllers
 
 
 		[HttpGet("{id}")]
+		[Authorize]
 		public async Task<IActionResult> GetById(int id)
 		{
 			var result = await _eventosService.getById(id);
@@ -116,6 +125,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpPut]
+		[Authorize]
 		public async Task<IActionResult> Update(EventoUpdateDTO uad)
 		{
 			var u = await _eventosService.Update(uad);
@@ -124,6 +134,7 @@ namespace UESAN.proyecto.API.Controllers
 
 
 		[HttpDelete]
+		[Authorize]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var result = await _eventosService.delete(id);

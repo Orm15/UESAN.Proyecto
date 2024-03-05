@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UESAN.Proyecto.Core.DTO;
 using UESAN.Proyecto.Core.InterfacesServices;
@@ -17,6 +18,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpPost("CreateVideo")]
+		[Authorize]
 		public async Task<IActionResult> InsertEvento(VideosInsertDTO ucd)
 		{
 			var result = await _videos.InsertVideo(ucd);
@@ -25,6 +27,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetAll")]
+		[Authorize]
 		public async Task<ActionResult> GetAllVideos()
 		{
 			var u = await _videos.GetAll();
@@ -39,6 +42,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetById{id}")]
+		[Authorize]
 		public async Task<ActionResult> getByIdVideo(int id)
 		{
 			var u = await _videos.getbYIdVideo(id);
@@ -53,6 +57,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetByIdEvento{id}/evento")]
+		[Authorize]
 		public async Task<ActionResult> getByIdEvento(int id)
 		{
 			var u = await _videos.GetBYIdEvento(id);
@@ -67,6 +72,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetByIdServicio{id}/servicio")]
+		[Authorize]
 		public async Task<ActionResult> getByIdServicio(int id)
 		{
 			var u = await _videos.GetBYIdServicio(id);
@@ -81,6 +87,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetByIdArea{area}/area")]
+		[Authorize]
 		public async Task<ActionResult> getByArea(string area)
 		{
 			var u = await _videos.GetByArea(area);
@@ -95,6 +102,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpPut]
+		[Authorize]
 		public async Task<IActionResult> Update(VideosUpdateDTO uad)
 		{
 			var u = await _videos.update(uad);
@@ -103,6 +111,7 @@ namespace UESAN.proyecto.API.Controllers
 
 
 		[HttpDelete]
+		[Authorize]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var result = await _videos.delete(id);
@@ -112,6 +121,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpPost("CambiarEstadoEdicion")]
+		[Authorize]
 		public async Task<IActionResult> CambiarEstadoEvento(int id)
 		{
 			var result = await _videos.CmabiarEstadoEdicion(id);

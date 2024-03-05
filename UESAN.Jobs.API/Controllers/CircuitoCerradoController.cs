@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UESAN.Proyecto.Core.DTO;
 using UESAN.Proyecto.Core.entities;
@@ -18,6 +19,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpPost("CreateCircuitoCeraddo")]
+		[Authorize]
 		public async Task<IActionResult> InsertEvento(CircuitoCerradoInsertDTO ucd)
 		{
 			var result = await _circuitoCerradoService.InsertCC(ucd);
@@ -26,6 +28,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetAll")]
+		[Authorize]
 		public async Task<ActionResult> GetAllCC()
 		{
 			var u = await _circuitoCerradoService.GetAll();
@@ -35,6 +38,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetByIdEvento{id}/evento")]
+		[Authorize]
 		public async Task<ActionResult> getByIdEvento(int id)
 		{
 			var u = await _circuitoCerradoService.getbYIdEvento(id);
@@ -44,6 +48,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetById{id}")]
+		[Authorize]
 		public async Task<ActionResult> getById(int id)
 		{
 			var u = await _circuitoCerradoService.getbYId(id);
@@ -52,6 +57,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpPut]
+		[Authorize]
 		public async Task<IActionResult> Update(CircuitoCerradoUpdateDTO uad)
 		{
 			var u = await _circuitoCerradoService.update(uad);
@@ -59,6 +65,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetByIdServicio = {id}/Servicio")]
+		[Authorize]
 		public async Task<ActionResult> getByIdServicio(int id)
 		{
 			var u = await _circuitoCerradoService.getByIdServicio(id);
@@ -68,6 +75,7 @@ namespace UESAN.proyecto.API.Controllers
 
 
 		[HttpDelete]
+		[Authorize]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var result = await _circuitoCerradoService.delete(id);

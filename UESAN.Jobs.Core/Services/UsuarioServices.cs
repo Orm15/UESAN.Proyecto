@@ -14,10 +14,12 @@ namespace UESAN.Proyecto.Core.Services
     public class UsuarioServices : IUsuarioServices
 	{
 		private readonly IUsuarioRepository _usuarioRepository;
+		private readonly IJWTFactory _jwtFactory;
 
-		public UsuarioServices(IUsuarioRepository usuarioRepository)
+		public UsuarioServices(IUsuarioRepository usuarioRepository, IJWTFactory jwtFactory)
 		{
 			_usuarioRepository = usuarioRepository;
+			_jwtFactory = jwtFactory;
 		}
 		//traer todos los usuarios por estado
 		public async Task<IEnumerable<UsuarioDTO>> getAll(string estado)
@@ -31,7 +33,9 @@ namespace UESAN.Proyecto.Core.Services
 					Nombre = x.Nombre,
 					Correo = x.Correo,
 					Tipo = x.Tipo,
-					Area = x.Area
+					Area = x.Area,
+					Estado = x.Estado.Trim(),
+					
 				});
 
 				return ud;
@@ -149,12 +153,20 @@ namespace UESAN.Proyecto.Core.Services
 				};
 				//Esto se agrego para retornar id y tipo
 				var usuario =  await _usuarioRepository.Insert(u);
-				var uard = new UsuarioAuthResponseDTO
+				if(usuario != null)
 				{
-					IdUsuario = usuario.IdUsuario,
-					Tipo = usuario.Tipo,
-				};
-				return uard;
+					var token = _jwtFactory.GenerateJWToken(usuario);
+					var uard = new UsuarioAuthResponseDTO
+					{
+						IdUsuario = usuario.IdUsuario,
+						Tipo = usuario.Tipo,
+						token = token,
+					};
+					return uard;
+				}
+
+				return null;
+				
 			}
 			else
 			{
@@ -224,10 +236,12 @@ namespace UESAN.Proyecto.Core.Services
 			var u = await _usuarioRepository.SigInSalt(correo, password);
 			if (u != null)
 			{
+				var token = _jwtFactory.GenerateJWToken(u);
 				var usuariod = new UsuarioAuthResponseDTO
 				{
 					IdUsuario = u.IdUsuario,
-					Tipo = u.Tipo
+					Tipo = u.Tipo,
+					token = token,	
 				};
 				return usuariod;
 			}

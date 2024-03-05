@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using UESAN.Proyecto.Core.DTO;
@@ -44,6 +45,7 @@ namespace UESAN.proyecto.API.Controllers
 
 
 		[HttpPost("SignUp/admin")]
+		[Authorize]
 		public async Task<IActionResult> SignUpAdmin(UsuarioCreateDTO up)
 		{
 			var result = await _usuarioServices.CreateAdmin(up);
@@ -56,6 +58,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpPut]
+		[Authorize]
 		public async Task<IActionResult> Update(UsuarioUpdateDTO uad)
 		{
 			var u = await _usuarioServices.updateUsuarioSalt(uad);
@@ -63,6 +66,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpDelete]
+		[Authorize]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var result = await _usuarioServices.delete(id);
@@ -72,6 +76,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetAll")]
+		[Authorize]
 		public async Task<ActionResult> GetAll(string estado)
 		{
 			var u = await _usuarioServices.getAll(estado);
@@ -86,6 +91,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("{id}")]
+		[Authorize]
 		public async Task<IActionResult> GetById(int id)
 		{
 			var result = await _usuarioServices.getById(id);

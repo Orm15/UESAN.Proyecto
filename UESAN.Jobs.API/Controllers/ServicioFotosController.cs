@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using UESAN.Proyecto.Core.DTO;
 using UESAN.Proyecto.Core.entities;
@@ -18,7 +19,8 @@ namespace UESAN.proyecto.API.Controllers
         }
 
         [HttpPost("CreateServicioFotos")]
-        public async Task<IActionResult> InsertServicioFotos(ServicioFotosInsertDTO sfDTO)
+		[Authorize]
+		public async Task<IActionResult> InsertServicioFotos(ServicioFotosInsertDTO sfDTO)
         {
             var result = await _servicioFotosService.Create(sfDTO);
             if (result == -1) return BadRequest(result);
@@ -26,7 +28,8 @@ namespace UESAN.proyecto.API.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult> GetAllServicioFotos()
+		[Authorize]
+		public async Task<ActionResult> GetAllServicioFotos()
         {
             var u = await _servicioFotosService.getAll();
             if (u == null)return NotFound(" - NO HAY servicios de fotos - ");
@@ -34,7 +37,8 @@ namespace UESAN.proyecto.API.Controllers
         }
 
         [HttpGet("GetAllByIdServicio{id}")]
-        public async Task<ActionResult> GetallByIdServicio(int id)
+		[Authorize]
+		public async Task<ActionResult> GetallByIdServicio(int id)
         {
             var u = await _servicioFotosService.getBySId(id);
             if (u == null)return NotFound(" - NO HAY servicios de fotos - ");
@@ -42,7 +46,8 @@ namespace UESAN.proyecto.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+		[Authorize]
+		public async Task<IActionResult> GetById(int id)
         {
             var result = await _servicioFotosService.getById(id);
             if (result == null)return NotFound();
@@ -50,6 +55,7 @@ namespace UESAN.proyecto.API.Controllers
         }
 
 		[HttpPut]
+		[Authorize]
 		public async Task<IActionResult> Update(ServicioFotosUpdateDTO uad)
 		{
 			var u = await _servicioFotosService.Update(uad);

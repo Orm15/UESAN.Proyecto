@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UESAN.Proyecto.Core.DTO;
 using UESAN.Proyecto.Core.entities;
@@ -18,7 +19,8 @@ namespace UESAN.proyecto.API.Controllers
         }
 
         [HttpPost("CreateStream")]
-        public async Task<IActionResult> InsertEvento(StreamInsertDTO ucd)
+		[Authorize]
+		public async Task<IActionResult> InsertEvento(StreamInsertDTO ucd)
         {
             var result = await _streamService.InsertStream(ucd);
             if (result == 0) { return BadRequest(); }
@@ -26,7 +28,8 @@ namespace UESAN.proyecto.API.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult> GetAllStream()
+		[Authorize]
+		public async Task<ActionResult> GetAllStream()
         {
             var u = await _streamService.GetAll();
             if (u == null) return NotFound(" - NO HAY STREAM - ");
@@ -35,7 +38,8 @@ namespace UESAN.proyecto.API.Controllers
         }
 
         [HttpGet("GetByIdEvento{id}/evento")]
-        public async Task<ActionResult> getByIdEvento(int id)
+		[Authorize]
+		public async Task<ActionResult> getByIdEvento(int id)
         {
             var u = await _streamService.getbYIdEvento(id);
             if (u == null)
@@ -44,7 +48,8 @@ namespace UESAN.proyecto.API.Controllers
         }
 
         [HttpGet("GetById{id}")]
-        public async Task<ActionResult> getById(int id)
+		[Authorize]
+		public async Task<ActionResult> getById(int id)
         {
             var u = await _streamService.getById(id);
             if (u == null) return NotFound(" - No hay Stream con ese id - ");
@@ -52,7 +57,8 @@ namespace UESAN.proyecto.API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(StreamUpdateDTO uad)
+		[Authorize]
+		public async Task<IActionResult> Update(StreamUpdateDTO uad)
         {
             var u = await _streamService.update(uad);
             return Ok(u);
@@ -60,7 +66,8 @@ namespace UESAN.proyecto.API.Controllers
 
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(int id)
+		[Authorize]
+		public async Task<IActionResult> Delete(int id)
         {
             var result = await _streamService.delete(id);
             if (!result) return NotFound();

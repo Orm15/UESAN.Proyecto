@@ -3,9 +3,12 @@ using Microsoft.OpenApi.Models;
 using System.Text.Json.Serialization;
 using UESAN.proyecto.Infrastructure.Models;
 using UESAN.proyecto.Infrastructure.repository;
+using UESAN.proyecto.Infrastructure.Shared;
+using UESAN.Proyecto.Core.entities;
 using UESAN.Proyecto.Core.InterfacesRepository;
 using UESAN.Proyecto.Core.InterfacesServices;
 using UESAN.Proyecto.Core.Services;
+using UESAN.Proyecto.Core.Utilidades;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,8 +43,9 @@ builder.Services.AddTransient<IServicioEdicionVideoService, ServicioEdicionVideo
 builder.Services.AddTransient<IStreamRepository, StreamRepository>();
 builder.Services.AddTransient<IStreamService, StreamService>();
 
+builder.Services.AddSharedInfrastructure(_config);
 
-
+builder.Services.AddControllers();
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
@@ -62,13 +66,36 @@ builder.Services.AddCors(options =>
 	});
 });
 
-builder.Services.AddControllers();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
 	options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+	// Agregar el esquema de seguridad JWT
+	options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+	{
+		In = ParameterLocation.Header,
+		Description = "Ingrese el token JWT en el formato 'Bearer {token}'",
+		Name = "Authorization",
+		Type = SecuritySchemeType.Http,
+		Scheme = "bearer",
+		BearerFormat = "JWT"
+	});
+
+	// Agregar el requisito de seguridad JWT a nivel global
+	options.AddSecurityRequirement(new OpenApiSecurityRequirement
+	{
+		{
+			new OpenApiSecurityScheme
+			{
+				Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+			},
+			new string[] { }
+		}
+	});
 });
 
 var app = builder.Build();

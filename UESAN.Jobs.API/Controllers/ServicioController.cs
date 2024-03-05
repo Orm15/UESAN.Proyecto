@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UESAN.Proyecto.Core.DTO;
 using UESAN.Proyecto.Core.InterfacesServices;
@@ -18,6 +19,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpPost("CreateServicio")]
+		[Authorize]
 		public async Task<IActionResult> InsertEvento(ServicioInsertDTO ucd)
 		{
 			var result = await _servicioService.InsertServicio(ucd);
@@ -26,6 +28,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetAll")]
+		[Authorize]
 		public async Task<ActionResult> GetAllServicios()
 		{
 			var u = await _servicioService.GetAll();
@@ -40,6 +43,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetAllByIdEvento{id}")]
+		[Authorize]
 		public async Task<ActionResult> GetallByIdEvento(int id)
 		{
 			var u = await _servicioService.GetAllByIdEvento(id);
@@ -54,6 +58,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("{id}")]
+		[Authorize]
 		public async Task<IActionResult> GetById(int id)
 		{
 			var result = await _servicioService.GetById(id);

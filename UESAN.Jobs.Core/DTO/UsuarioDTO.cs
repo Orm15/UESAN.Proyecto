@@ -18,6 +18,8 @@ namespace UESAN.Proyecto.Core.DTO
 
 		public string? Tipo { get; set; }
 
+		public string? Estado { get; set; }
+
 	}
 
 	public class UsuarioCreateDTO
@@ -54,6 +56,8 @@ namespace UESAN.Proyecto.Core.DTO
 		public int IdUsuario { get; set; }
 
 		public string? Tipo { get; set; }
+
+		public string? token { get; set; }
 	}
 
 	public class UsuarioAuthenticationDTO
