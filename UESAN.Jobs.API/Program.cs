@@ -42,11 +42,11 @@ builder.Services.AddTransient<IServicioEdicionVideoRepository,ServicioEdicionVid
 builder.Services.AddTransient<IServicioEdicionVideoService, ServicioEdicionVideoService>();
 builder.Services.AddTransient<IStreamRepository, StreamRepository>();
 builder.Services.AddTransient<IStreamService, StreamService>();
-
 builder.Services.AddSharedInfrastructure(_config);
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 
 builder.Services.AddControllers();
-
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
 	options
@@ -59,7 +59,7 @@ builder.Services.AddCors(options =>
 	options.AddDefaultPolicy(builder =>
 	{
 		builder
-			.WithOrigins("http://localhost:9000")
+			//.WithOrigins("http://localhost:5158")
 			.AllowAnyOrigin()
 			.AllowAnyMethod()
 			.AllowAnyHeader();

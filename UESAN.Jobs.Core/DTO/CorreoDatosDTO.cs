@@ -6,11 +6,28 @@ using System.Threading.Tasks;
 
 namespace UESAN.Proyecto.Core.DTO
 {
-	public class CorreoDatosDTO
+	public class EmailDTO
 	{
-		public string destinatario { get; set; }
-		public string asunto { get; set; }
-		public string cuerpo { get; set; }
+		public string Para { get; set; } = string.Empty;
 
+		public string Nombre { get; set; } = string.Empty;
+
+	}
+
+	public class EmailPassword
+	{
+		public string Para { get; set; } = string.Empty;
+		public string Password { get; set; }
+
+		public string Nombre { get; set; } = string.Empty;
+
+		public string tipo { get; set; } = string.Empty;
+	}
+
+	public class EmailRequestModel
+	{
+		public EmailDTO Email { get; set; }
+		public byte[] PdfAttachment { get; set; }
+		public string PdfFileName { get; set; }
 	}
 }
