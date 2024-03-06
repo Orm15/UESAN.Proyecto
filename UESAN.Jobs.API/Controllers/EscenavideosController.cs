@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UESAN.Proyecto.Core.DTO;
 using UESAN.Proyecto.Core.entities;
@@ -18,6 +19,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpPost("CreateVideo")]
+		[Authorize]
 		public async Task<IActionResult> InsertEvento(EscenasVideoInsertDTO ucd)
 		{
 			var result = await _escenaVideoService.InsertCC(ucd);
@@ -26,6 +28,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetAllByIdServicioEdicion{id}/servicioEdicionID")]
+		[Authorize]
 		public async Task<ActionResult> GetAllByServiciosEdicion(int id)
 		{
 			var u = await _escenaVideoService.GetAllByIdServicioEdicion(id);
@@ -34,6 +37,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetById{id}")]
+		[Authorize]
 		public async Task<ActionResult> GetById(int id)
 		{
 			var u = await _escenaVideoService.GetAllByIdServicioEdicion(id);
@@ -42,6 +46,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpPut]
+		[Authorize]
 		public async Task<IActionResult> Update(EscenasVideoUpdateDTO uad)
 		{
 			var u = await _escenaVideoService.update(uad);
@@ -50,6 +55,7 @@ namespace UESAN.proyecto.API.Controllers
 
 
 		[HttpDelete]
+		[Authorize]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var result = await _escenaVideoService.delete(id);

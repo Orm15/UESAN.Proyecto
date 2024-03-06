@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using UESAN.Proyecto.Core.DTO;
 using UESAN.Proyecto.Core.entities;
@@ -18,6 +19,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpPost("CreateEdicion")]
+		[Authorize]
 		public async Task<IActionResult> InsertEvento(EdicionInsertDTO ucd)
 		{
 			var result = await _edicionService.InsertEdicion(ucd);
@@ -26,6 +28,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("GetAll")]
+		[Authorize]
 		public async Task<ActionResult> GetAllEdicion()
 		{
 			var u = await _edicionService.GetAll();
@@ -40,6 +43,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("EdicionId{id}")]
+		[Authorize]
 		public async Task<ActionResult> GetAllById(int id)
 		{
 			var u = await _edicionService.GetByIdEdicion(id);
@@ -54,6 +58,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpGet("Edicion{id}/ByVideo")]
+		[Authorize]
 		public async Task<ActionResult> GetAllByIdVideo(int id)
 		{
 			var u = await _edicionService.GetByIdVideo(id);
@@ -68,6 +73,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpPut]
+		[Authorize]
 		public async Task<IActionResult> Update(EdicionUpdateDTO uad)
 		{
 			var u = await _edicionService.update(uad);
@@ -75,6 +81,7 @@ namespace UESAN.proyecto.API.Controllers
 		}
 
 		[HttpDelete]
+		[Authorize]
 		public async Task<IActionResult> Delete(int id)
 		{
 			var result = await _edicionService.delete(id);
