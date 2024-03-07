@@ -15,6 +15,7 @@ namespace UESAN.proyecto.API.Controllers
 		{
 			_emailService = emailService;
 		}
+
 		/*
 		[HttpPost("sendEmail")]
 		[Authorize]
@@ -33,9 +34,10 @@ namespace UESAN.proyecto.API.Controllers
 			{
 				pdfFile.CopyTo(memoryStream);
 				memoryStream.Seek(0, SeekOrigin.Begin);
-				_emailService.SendEmailPDF(request, memoryStream, pdfFile.FileName);
+				var respuesta = _emailService.SendEmailPDF(request, memoryStream, pdfFile.FileName);
+				return Ok(respuesta);
 			}
-			return Ok("Correo electrónico enviado con éxito.");
+			
 		}
 
 		[HttpPost("sendEmailPassword")]

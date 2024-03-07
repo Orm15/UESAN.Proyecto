@@ -50,34 +50,43 @@ namespace UESAN.Proyecto.Core.Services
 
 		}*/
 
-		public void SendEmailPDF(EmailDTO request, Stream pdfStream, string pdfFileName)
+		public string  SendEmailPDF(EmailDTO request, Stream pdfStream, string pdfFileName)
 		{
-			var email = new MimeMessage();
-			email.From.Add(MailboxAddress.Parse(_config.GetSection("Email:UserName").Value));
-			email.To.Add(MailboxAddress.Parse(request.Para));
-			email.Subject = "Confirmación de Solicitud de servicios";
+			try
+			{
+				var email = new MimeMessage();
+				email.From.Add(MailboxAddress.Parse(_config.GetSection("Email:UserName").Value));
+				email.To.Add(MailboxAddress.Parse(request.Para));
+				email.Subject = "Confirmación de Solicitud de servicios";
 
-			var builder = new BodyBuilder();
-			builder.HtmlBody = "Hola " + request.Nombre + ". A continuación se te adjunta el registro de los datos de los servicios que has solicitado.";
+				var builder = new BodyBuilder();
+				builder.HtmlBody = "Hola " + request.Nombre + ". A continuación se te adjunta el registro de los datos de los servicios que has solicitado.";
 
-			// Adjuntar el archivo PDF
-			builder.Attachments.Add(pdfFileName, pdfStream, ContentType.Parse("application/pdf"));
+				// Adjuntar el archivo PDF
+				builder.Attachments.Add(pdfFileName, pdfStream, ContentType.Parse("application/pdf"));
 
+				email.Body = builder.ToMessageBody();
 
-			email.Body = builder.ToMessageBody();
+				using var smtp = new SmtpClient();
+				smtp.Connect(
+					_config.GetSection("Email:Host").Value,
+					Convert.ToInt32(_config.GetSection("Email:Port").Value),
+					SecureSocketOptions.StartTls
+				);
 
-			using var smtp = new SmtpClient();
-			smtp.Connect(
-				_config.GetSection("Email:Host").Value,
-				Convert.ToInt32(_config.GetSection("Email:Port").Value),
-				SecureSocketOptions.StartTls
-			);
+				smtp.Authenticate(_config.GetSection("Email:UserName").Value, _config.GetSection("Email:PassWord").Value);
 
-			smtp.Authenticate(_config.GetSection("Email:UserName").Value, _config.GetSection("Email:PassWord").Value);
+				smtp.Send(email);
+				smtp.Disconnect(true);
 
-			smtp.Send(email);
-			smtp.Disconnect(true);
+				return "Envío exitoso";
+			}
+			catch (Exception ex)
+			{
+				return ("Error al enviar el correo electrónico: " + ex.Message);
+			}
 		}
+
 
 
 		public void SendEmailPassword(EmailPassword request)

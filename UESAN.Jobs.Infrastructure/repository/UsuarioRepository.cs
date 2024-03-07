@@ -92,7 +92,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 		{
 			return await _context
 				.Usuarios
-				.Where(x => x.Correo == email).AnyAsync();
+				.Where(x => x.Correo == email && x.Estado != "inactivo").AnyAsync();
 		}
 		//SIGIN SIN SALT
 		public async Task<Usuarios> SigIn(string correo, string contra)
