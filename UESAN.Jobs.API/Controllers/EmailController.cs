@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using UESAN.Proyecto.Core.DTO;
 using UESAN.Proyecto.Core.InterfacesServices;
@@ -44,8 +45,9 @@ namespace UESAN.proyecto.API.Controllers
 		[Authorize]
 		public IActionResult SendEmailPassword(EmailPassword request)
 		{
-			_emailService.SendEmailPassword(request);
-			return Ok();
+			var respuesta = _emailService.SendEmailPassword(request);
+			return Ok(respuesta);
+
 		}
 	}
 }

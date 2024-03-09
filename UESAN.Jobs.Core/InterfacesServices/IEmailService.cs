@@ -6,6 +6,6 @@ namespace UESAN.Proyecto.Core.InterfacesServices
     {
 		string SendEmailPDF(EmailDTO request, Stream pdfStream, string pdfFileName);
 
-		void SendEmailPassword(EmailPassword request);
+		string SendEmailPassword(EmailPassword request);
 	}
 }

@@ -60,7 +60,60 @@ namespace UESAN.Proyecto.Core.Services
 				email.Subject = "Confirmación de Solicitud de servicios";
 
 				var builder = new BodyBuilder();
-				builder.HtmlBody = "Hola " + request.Nombre + ". A continuación se te adjunta el registro de los datos de los servicios que has solicitado.";
+				//builder.HtmlBody = "Hola " + request.Nombre + ". A continuación se te adjunta el registro de los datos de los servicios que has solicitado.";
+
+				builder.HtmlBody = $@"
+					<!DOCTYPE html>
+					<html lang='en'>
+					<head>
+						<meta charset='UTF-8'>
+						<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+						<title>Confirmación de Solicitud de Servicios</title>
+						<style>
+							body {{
+								font-family: Arial, sans-serif;
+								background-color: #f4f4f4;
+								margin: 0;
+								padding: 0;
+							}}
+							.container {{
+								max-width: 600px;
+								margin: 50px auto;
+								background-color: #ffffff;
+								border-radius: 10px;
+								box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+							}}
+							.header {{
+								background-color: #007bff;
+								color: #ffffff;
+								border-top-left-radius: 10px;
+								border-top-right-radius: 10px;
+								padding: 20px;
+								text-align: center;
+							}}
+							.content {{
+								padding: 30px;
+								text-align: center;
+							}}
+							.message {{
+								font-size: 16px;
+								line-height: 1.6;
+								color: #333333;
+							}}
+						</style>
+					</head>
+					<body>
+						<div class='container'>
+							<div class='header'>
+								<h1>Confirmación de Solicitud de Servicios</h1>
+							</div>
+							<div class='content'>
+								<p class='message'>Hola {request.Nombre},</p>
+								<p class='message'>A continuación se adjunta el registro de los datos de los servicios que has solicitado.</p>
+							</div>
+						</div>
+					</body>
+					</html>";
 
 				// Adjuntar el archivo PDF
 				builder.Attachments.Add(pdfFileName, pdfStream, ContentType.Parse("application/pdf"));
@@ -89,46 +142,111 @@ namespace UESAN.Proyecto.Core.Services
 
 
 
-		public void SendEmailPassword(EmailPassword request)
+		public string SendEmailPassword(EmailPassword request)
 		{
-			string mensaje = "", sub = "";
-			if (request.tipo.Equals("verificacion"))
+			try
 			{
-				mensaje = " este es tu código de verificación : ";
-				sub = "Código de verificación";
+				string mensaje = "", sub = "";
+				if (request.tipo.Equals("verificacion"))
+				{
+					mensaje = " este es tu código de verificación : ";
+					sub = "Código de verificación";
+				}
+				else if (request.tipo.Equals("password"))
+				{
+					mensaje = " el administrador te asignado la contraseña :  ";
+					sub = "Cambio de contraseña";
+				}
+				else if (request.tipo.Equals("login"))
+				{
+					mensaje = " este es tu correo de ingreso : " + request.Para + " y contraseña : ";
+					sub = "Envío de correo y contraseña de ingreso";
+				}
+				var email = new MimeMessage();
+				email.From.Add(MailboxAddress.Parse(_config.GetSection("Email:UserName").Value));
+				email.To.Add(MailboxAddress.Parse(request.Para));
+				email.Subject = sub;
+
+
+				var bodyBuilder = new BodyBuilder();
+				bodyBuilder.HtmlBody = $@"
+					<!DOCTYPE html>
+					<html lang='en'>
+					<head>
+						<meta charset='UTF-8'>
+						<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+						<title>Confirmación de Solicitud de Servicios</title>
+						<style>
+							body {{
+								font-family: Arial, sans-serif;
+								background-color: #f4f4f4;
+								margin: 0;
+								padding: 0;
+							}}
+							.container {{
+								max-width: 600px;
+								margin: 50px auto;
+								background-color: #ffffff;
+								border-radius: 10px;
+								box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+							}}
+							.header {{
+								background-color: #007bff;
+								color: #ffffff;
+								border-top-left-radius: 10px;
+								border-top-right-radius: 10px;
+								padding: 20px;
+								text-align: center;
+							}}
+							.content {{
+								padding: 30px;
+								text-align: center;
+							}}
+							.password {{
+								color: #ff0000;
+							}}
+							.message {{
+								font-size: 16px;
+								line-height: 1.6;
+								color: #333333;
+							}}
+						</style>
+					</head>
+					<body>
+						<div class='container'>
+							<div class='header'>
+								<h1>{sub}</h1>
+							</div>
+							<div class='content'>
+								<p class='message'>Hola {request.Nombre},</p>
+								<p class='message'> {mensaje} <span class='password'>{request.Password}</span></p>
+							</div>
+						</div>
+					</body>
+					</html>";
+
+				email.Body = bodyBuilder.ToMessageBody();
+
+				using var smtp = new SmtpClient();
+				smtp.Connect(
+					_config.GetSection("Email:Host").Value,
+				   Convert.ToInt32(_config.GetSection("Email:Port").Value),
+				   SecureSocketOptions.StartTls
+					);
+
+
+				smtp.Authenticate(_config.GetSection("Email:UserName").Value, _config.GetSection("Email:PassWord").Value);
+
+				smtp.Send(email);
+				smtp.Disconnect(true);
+				return "Envío exitoso";
+
 			}
-			else if (request.tipo.Equals("password"))
+			catch (Exception ex)
 			{
-				mensaje = " el administrador te asignado la contraseña :  ";
-				sub = "Cambio de contraseña";
-			}else if (request.tipo.Equals("login"))
-			{
-				mensaje = " este es tu correo de ingreso : " + request.Para + " y contraseña : ";
-				sub = "Envío de correo y contraseña de ingreso";
+				return ("Error al enviar el correo electrónico: " + ex.Message);
 			}
-			var email = new MimeMessage();
-			email.From.Add(MailboxAddress.Parse(_config.GetSection("Email:UserName").Value));
-			email.To.Add(MailboxAddress.Parse(request.Para));
-			email.Subject = sub;
 			
-			
-			email.Body = new TextPart(TextFormat.Html)
-			{
-				Text = "Hola " + request.Nombre + mensaje +request.Password
-			};
-
-			using var smtp = new SmtpClient();
-			smtp.Connect(
-				_config.GetSection("Email:Host").Value,
-			   Convert.ToInt32(_config.GetSection("Email:Port").Value),
-			   SecureSocketOptions.StartTls
-				);
-
-
-			smtp.Authenticate(_config.GetSection("Email:UserName").Value, _config.GetSection("Email:PassWord").Value);
-
-			smtp.Send(email);
-			smtp.Disconnect(true);
 
 
 		}
