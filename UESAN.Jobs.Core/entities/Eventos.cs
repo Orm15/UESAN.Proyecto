@@ -27,7 +27,11 @@ public partial class Eventos
 
 	public int? CantidadInvitados { get; set; }
 
-	public virtual ICollection<Interaccion> Interaccion { get; set; } = new List<Interaccion>();
+	public int? IdUsuario { get; set; }
+
+	public virtual Usuarios? IdUsuarioNavigation { get; set; }
+
+	public virtual ICollection<ServicioEdicionVideo> ServicioEdicionVideo { get; set; } = new List<ServicioEdicionVideo>();
 
 	public virtual ICollection<Servicios> Servicios { get; set; } = new List<Servicios>();
 }

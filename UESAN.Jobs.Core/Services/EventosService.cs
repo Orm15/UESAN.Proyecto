@@ -1,27 +1,32 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using UESAN.Proyecto.Core.DTO;
 using UESAN.Proyecto.Core.entities;
 using UESAN.Proyecto.Core.InterfacesRepository;
-
+using UESAN.Proyecto.Core.InterfacesServices;
 
 namespace UESAN.Proyecto.Core.Services
 {
-	public class EventosService
+    public class EventosService : IEventosService
 	{
-		private readonly IEventoRepository _eventoRepository;
-		private readonly IInteraccionRepository _interaccionRepository;
-		
 
-		public EventosService(IEventoRepository eventoRepository)
+		private readonly IEventoRepository _eventoRepository;
+		private readonly IUsuarioRepository _usuarioRepository;
+
+
+		public EventosService(IEventoRepository eventoRepository, IUsuarioRepository usuarioRepository)
 		{
 			_eventoRepository = eventoRepository;
+			_usuarioRepository = usuarioRepository;
+			
 		}
-		 
+
 		public async Task<IEnumerable<EventosDTO>> getAll()
 		{
 			var eve = await _eventoRepository.getAll();
@@ -31,44 +36,34 @@ namespace UESAN.Proyecto.Core.Services
 			}
 			else
 			{
-				var EveDTO = eve.Select(e => new EventosDTO
-				{
-					IdEvento = e.IdEvento,
-					Nombre = e.Nombre,
-					Descripcion = e.Descripcion,
-					FechaEvento = e.FechaEvento,
-					FechaCreacion = e.FechaCreacion,
-					HoraFin = e.HoraFin,
-					HoraInicio = e.HoraInicio,
-					Lugar = e.Lugar,
-					Estado = e.Estado,
-					MomentosImportantes = e.MomentosImportantes,
-					CantidadInvitados = e.CantidadInvitados,
-
-				});
+				var EveDTO = AsignarDTO((List<Eventos>)eve);
 				return EveDTO;
 			}
 
 		}
 
-		public async Task<bool> InsertEvento(EventoInsertDTO eventoInsertDTO)
+		public async Task<int> InsertEvento(EventoInsertDTO eventoInsertDTO)
 		{
+			DateTime now = DateTime.Now;
 			var Eve = new Eventos()
 			{
 				Nombre = eventoInsertDTO.Nombre,
 				Descripcion = eventoInsertDTO.Descripcion,
 				Estado = "Abierto",
-				FechaCreacion = eventoInsertDTO.FechaCreacion,
+				FechaCreacion = now,
 				FechaEvento = eventoInsertDTO.FechaEvento,
 				HoraFin = eventoInsertDTO.HoraFin,
 				HoraInicio = eventoInsertDTO.HoraInicio,
 				Lugar = eventoInsertDTO.Lugar,
 				MomentosImportantes = eventoInsertDTO.MomentosImportantes,
 				CantidadInvitados = eventoInsertDTO.CantidadInvitados,
+				IdUsuario = eventoInsertDTO.IdUsuario
+
 			};
 			var b = await _eventoRepository.insertEvento(Eve);
+
 			return b;
-		}
+		}	
 
 		//Cambiar estado
 
@@ -80,20 +75,11 @@ namespace UESAN.Proyecto.Core.Services
 		public async Task<IEnumerable<EventosDTO>> EventosByEstado(string r)
 		{
 			var eve = await _eventoRepository.getEventosByEstado(r);
-			var dto = eve.Select(e => new EventosDTO
+			if(eve == null)
 			{
-				IdEvento = e.IdEvento,
-				Nombre = e.Nombre,
-				Descripcion = e.Descripcion,
-				FechaEvento = e.FechaEvento,
-				FechaCreacion = e.FechaCreacion,
-				HoraFin = e.HoraFin,
-				HoraInicio = e.HoraInicio,
-				Lugar = e.Lugar,
-				Estado = e.Estado,
-				MomentosImportantes = e.MomentosImportantes,
-				CantidadInvitados = e.CantidadInvitados,
-			});
+				return null;
+			}
+			var dto = AsignarDTO((List<Eventos>)eve);
 
 			if (dto.Any())
 			{
@@ -125,6 +111,7 @@ namespace UESAN.Proyecto.Core.Services
 					Estado = "Abierto",
 					MomentosImportantes = eventoUpdateDTO.MomentosImportantes,
 					CantidadInvitados = eventoUpdateDTO.CantidadInvitados,
+					IdUsuario = eventoUpdateDTO.IdUsuario,
 				};
 				return await _eventoRepository.update(eve);
 			}
@@ -141,127 +128,151 @@ namespace UESAN.Proyecto.Core.Services
 
 		//Dame los eventos donde  dado el idUsuario retorne todos donde fue creador
 
-		public async Task<IEnumerable<EventosDTO>> getEventosCreadorByIdUsuario(int idUsuario)
+		public async Task<IEnumerable<EventosDTO>> GetEventosByUsuarioCreador(int id)
 		{
-			var interacciones = await _interaccionRepository.GetInteraccionesbyIdUsuarioCreador(idUsuario);
-			if (interacciones.Any())
+			var eve = await _eventoRepository.getEventosByUsuario(id);
+			if (eve == null)
 			{
-				List < Eventos > eve = new List < Eventos >();
-				int idEvento;
-				foreach (var item in interacciones)
-                {
-					idEvento = (int)item.IdEvento;
-					var e = await _eventoRepository.getEventosById(idEvento);
-					eve.Add(e);
-                }
-
-				var eventosD = eve.Select(x => new EventosDTO
-				{
-					IdEvento = x.IdEvento,
-					Descripcion = x.Descripcion,
-					HoraFin = x.HoraFin,
-					HoraInicio = x.HoraInicio,
-					Nombre = x.Nombre,
-					FechaCreacion = x.FechaCreacion,
-					FechaEvento = x.FechaEvento,
-					Lugar = x.Lugar,
-					Estado = x.Estado,
-					MomentosImportantes = x.MomentosImportantes,
-					CantidadInvitados = x.CantidadInvitados
-
-				});
-
-				return eventosD;  
-
-            }
-			else {
 				return null;
 			}
-		}
+			else
+			{
+				var ed = AsignarDTO((List<Eventos>)eve);
+				return ed;
+			}
 
+		}
 		//Eventos donde el usuario dado fue creador o vizualizador
-
-		public async Task<IEnumerable<EventosDTO>> GetEventosCreadorVisualizadorByIdUsuario(int id)
+		public async Task<IEnumerable<EventosDTO>> getEventosByUsuarioCreadorOrVizualizador(int id)
 		{
-			var interacciones = await _interaccionRepository.getInteraccionesByCreadorVisualizador(id);
-			if (interacciones.Any())
+			var usu = await _usuarioRepository.getById(id);
+			if(usu!= null)
 			{
-				int idEve;
-				List<Eventos> eventos = new List<Eventos>();
-                foreach (var item in interacciones)
-                {
-					idEve = (int)item.IdEvento;
-					var e = await _eventoRepository.getEventosById(idEve);
-					eventos.Add(e);
-                }
-				var ev = eventos.Select(x => new EventosDTO
+				var eve = await _eventoRepository.GetEventosByUsuarioCreadorOrVizualizador(id, usu.Area);
+				if(eve!= null)
 				{
-					IdEvento = x.IdEvento,
-					Descripcion = x.Descripcion,
-					HoraFin = x.HoraFin,
-					HoraInicio = x.HoraInicio,
-					Nombre = x.Nombre,
-					FechaCreacion = x.FechaCreacion,
-					FechaEvento = x.FechaEvento,
-					Lugar = x.Lugar,
-					Estado = x.Estado,
-					MomentosImportantes = x.MomentosImportantes,
-					CantidadInvitados = x.CantidadInvitados
-				});
-
-				return ev;
-
-            }
-			else {
-				return null;
-			}
-		}
-		//Eventos donde el usuario es un visualizador solo eso
-
-		public async Task<IEnumerable<EventosDTO>> GetEventosVisualizadorByIdUsuario(int id)
-		{
-			var interacciones = await _interaccionRepository.GetInteraccionesbyIdUsuarioVisualizador(id);
-			if (interacciones.Any())
-			{
-				int idEve;
-				List<Eventos> eventos = new List<Eventos>();
-				foreach (var item in interacciones)
-				{
-					idEve = (int)item.IdEvento;
-					var e = await _eventoRepository.getEventosById(idEve);
-					eventos.Add(e);
+					var eveDTO = AsignarDTO((List<Eventos>)eve);
+					return eveDTO;
 				}
-				var ev = eventos.Select(x => new EventosDTO
+				else
 				{
-					IdEvento = x.IdEvento,
-					Descripcion = x.Descripcion,
-					HoraFin = x.HoraFin,
-					HoraInicio = x.HoraInicio,
-					Nombre = x.Nombre,
-					FechaCreacion = x.FechaCreacion,
-					FechaEvento = x.FechaEvento,
-					Lugar = x.Lugar,
-					Estado = x.Estado,
-					MomentosImportantes = x.MomentosImportantes,
-					CantidadInvitados = x.CantidadInvitados
-				});
-
-				return ev;
+					return null;
+				}
 
 			}
 			else
 			{
 				return null;
 			}
+			
+			
 		}
 
-		//Para que el admin pueda ver quien fue el creador del evento
+		//Eventos donde el usuario es un visualizador solo eso (Por el area)
+		public async Task<IEnumerable<EventosDTO>> getEventosByUsuarioVizualizador(int id)
+		{
+			var Usuario = await _usuarioRepository.getById(id);
+			if(Usuario != null)
+			{
+				var events = await _eventoRepository.getAllByIdMismaArea(Usuario.Area);
+				if (events != null)
+				{
+					var ed = AsignarDTO((List < Eventos >) events);
+					return ed;
+				}
+				else
+				{
+					return null;
+				}
+			}
+			else
+			{
+				return null;
+			}
+			
+			
+			
 
+		}
 
+		//Evento get By ID evento
+		public async Task<EventosDTO> getById(int id)
+		{
+			var e = await _eventoRepository.getEventosById(id);
+			if(e == null)
+			{
+				return null;
+			}
+			else
+			{
+				var eve = new EventosDTO
+				{
+					IdEvento = e.IdEvento,
+					Nombre = e.Nombre.TrimEnd(),
+					Descripcion = e.Descripcion.TrimEnd(),
+					FechaEvento = e.FechaEvento,
+					FechaCreacion = e.FechaCreacion,
+					HoraFin = e.HoraFin.TrimEnd(),
+					HoraInicio = e.HoraInicio.TrimEnd(),
+					Lugar = e.Lugar.TrimEnd(),
+					Estado = e.Estado.TrimEnd(),
+					MomentosImportantes = e.MomentosImportantes.TrimEnd(),
+					CantidadInvitados = e.CantidadInvitados,
+					usuarioPropietario = new UsuarioPropietarioDTO()
+					{
+						IdUsuario = e.IdUsuarioNavigation.IdUsuario,
+						Nombre = e.IdUsuarioNavigation.Nombre
+					}
+				};
+				return eve;
+			}
+		}
 
-		//Para que el admin pueda ver quienes son los visualisadores del evento
+		public static IEnumerable<EventosDTO> AsignarDTO(List< Eventos> eventos)
+		{
+			var eve = eventos;
+			var ed = eve.Select(e => new EventosDTO
+			{
+				IdEvento = e.IdEvento,
+				Nombre = e.Nombre.TrimEnd(),
+				Descripcion = e.Descripcion.TrimEnd(),
+				FechaEvento = e.FechaEvento,
+				FechaCreacion = e.FechaCreacion,
+				HoraFin = e.HoraFin.TrimEnd(),
+				HoraInicio = e.HoraInicio.TrimEnd(),
+				Lugar = e.Lugar.TrimEnd(),
+				Estado = e.Estado.TrimEnd(),
+				MomentosImportantes = e.MomentosImportantes.TrimEnd(),
+				CantidadInvitados = e.CantidadInvitados,
+				usuarioPropietario = new UsuarioPropietarioDTO()
+				{
+					IdUsuario = e.IdUsuarioNavigation.IdUsuario,
+					Nombre = e.IdUsuarioNavigation.Nombre
+				}
+			});
+			return ed;
+		}
 
-
+		/*
+		 = events.Select(e => new EventosDTO
+					{
+						IdEvento = e.IdEvento,
+						Nombre = e.Nombre,
+						Descripcion = e.Descripcion,
+						FechaEvento = e.FechaEvento,
+						FechaCreacion = e.FechaCreacion,
+						HoraFin = e.HoraFin,
+						HoraInicio = e.HoraInicio,
+						Lugar = e.Lugar,
+						Estado = e.Estado,
+						MomentosImportantes = e.MomentosImportantes,
+						CantidadInvitados = e.CantidadInvitados,
+						usuarioPropietario = new UsuarioPropietarioDTO()
+						{
+							IdUsuario = e.IdUsuarioNavigation.IdUsuario,
+							Nombre = e.IdUsuarioNavigation.Nombre
+						}
+					});*/
 
 
 
@@ -272,4 +283,5 @@ namespace UESAN.Proyecto.Core.Services
 
 
 	}
+
 }

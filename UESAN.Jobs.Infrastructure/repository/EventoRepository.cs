@@ -12,9 +12,10 @@ namespace UESAN.proyecto.Infrastructure.repository
 {
 	public class EventoRepository : IEventoRepository
 	{
-		private readonly OrdenEventosContext _context;
 
-		public EventoRepository(OrdenEventosContext context)
+		private readonly OrdenesEventosContext _context;
+
+		public EventoRepository(OrdenesEventosContext context)
 		{
 			_context = context;
 		}
@@ -22,7 +23,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 		//ADMIN:
 		public async Task<IEnumerable<Eventos>> getAll()
 		{
-			var e = await _context.Eventos.ToListAsync();
+			var e = await _context.Eventos.Where(x=> x.Estado != "Eliminado").Include(x=> x.IdUsuarioNavigation).ToListAsync();
 			if (e.Any())
 			{
 				return e;
@@ -33,18 +34,53 @@ namespace UESAN.proyecto.Infrastructure.repository
 			}
 		}
 
-		public async Task<bool> insertEvento(Eventos eventos)
+		//GetEventos creador o espectador
+		public async Task<IEnumerable<Eventos>> GetEventosByUsuarioCreadorOrVizualizador(int id,string area)
+		{
+			var eve = await _context.Eventos.Where(x=> (x.IdUsuario ==  id || x.IdUsuarioNavigation.Area == area) && x.Estado != "Eliminado")
+				.Include(y => y.IdUsuarioNavigation).ToListAsync();
+			if (eve.Any())
+			{
+				return eve;
+			}
+			else
+			{
+				return null;
+			}
+		}
+		//Get todos donde se comparte el mismo area
+		public async Task<IEnumerable<Eventos>> getAllByIdMismaArea(string area)
+		{
+			var eve = await _context.Eventos.Where(x=> x.IdUsuarioNavigation.Area == area && x.Estado != "Eliminado").Include(y=> y.IdUsuarioNavigation).ToListAsync();
+			if(eve.Any())
+			{
+				return eve;
+			}
+			else
+			{
+				return null;
+			}
+		}
+
+		public async Task<int> insertEvento(Eventos eventos)
 		{
 			await _context.Eventos.AddAsync(eventos);
 			int rows = await _context.SaveChangesAsync();
-			return rows > 0;
+			if( rows > 0)
+			{
+				return eventos.IdEvento;
+			}
+			else
+			{
+				return 0;
+			}
 		}
 
-		//Estados: pendiente - Activo - Culminado
+		//Estados: Abierto - Confirmado - Atendido
 
 		public async Task<IEnumerable<Eventos>> getEventosByEstado(string cadena)
 		{
-			var e = await _context.Eventos.Where(x => x.Estado == cadena).ToListAsync();
+			var e = await _context.Eventos.Where(x => x.Estado == cadena ).Include(y=> y.IdUsuarioNavigation).ToListAsync();
 			if (e.Any())
 			{
 				return e;
@@ -56,7 +92,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 		}
 
 
-		//Cambiar estados:
+		//Cambiar estados: MODIFICAR
 
 		public async Task<bool> CambiarEstado(int idE)
 		{
@@ -68,14 +104,14 @@ namespace UESAN.proyecto.Infrastructure.repository
 			}
 			else
 			{
-				string est = e.Estado;
-				if (est == "pendiente")
+				string est = e.Estado.Trim();
+				if (est == "Abierto")
 				{
-					est = "activo";
+					est = "Confirmado";
 				}
-				else if (est == "activo")
+				else if (est == "Confirmado")
 				{
-					est = "Culminado";
+					est = "Atendido";
 				}
 				e.Estado = est;
 				int rows = await _context.SaveChangesAsync();
@@ -89,7 +125,7 @@ namespace UESAN.proyecto.Infrastructure.repository
 		//GetById
 		public async Task<Eventos> getEventosById(int id)
 		{
-			var e = await _context.Eventos.Where(x => x.IdEvento == id).FirstOrDefaultAsync();
+			var e = await _context.Eventos.Where(x => x.IdEvento == id && x.Estado != "Eliminado").Include(y=> y.IdUsuarioNavigation).FirstOrDefaultAsync();
 			if (e == null)
 			{
 				return null;
@@ -97,6 +133,19 @@ namespace UESAN.proyecto.Infrastructure.repository
 			else
 			{
 				return e;
+			}
+		}
+		//GetEventos By idUsuario
+		public async Task<IEnumerable<Eventos>> getEventosByUsuario(int id)
+		{
+			var eve = await _context.Eventos.Where(x=> x.IdUsuario == id && x.Estado != "Eliminado").Include(y => y.IdUsuarioNavigation).ToListAsync();
+			if (eve.Any())
+			{
+				return eve;
+			}
+			else
+			{
+				return null;
 			}
 		}
 
@@ -110,12 +159,13 @@ namespace UESAN.proyecto.Infrastructure.repository
 
 		public async Task<bool> delete(int id)
 		{
-			var eve = await _context.Eventos.Where(x=>x.IdEvento==id).FirstOrDefaultAsync();
+			var eve = await _context.Eventos.Where(x => x.IdEvento == id).FirstOrDefaultAsync();
 			if (eve == null)
 			{
 				return false;
 			}
-			else {
+			else
+			{
 				eve.Estado = "Eliminado";
 				int rows = await _context.SaveChangesAsync();
 				return rows > 0;

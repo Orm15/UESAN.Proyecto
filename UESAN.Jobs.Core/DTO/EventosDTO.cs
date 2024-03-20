@@ -29,6 +29,8 @@ namespace UESAN.Proyecto.Core.DTO
 		public string? MomentosImportantes { get; set; }
 
 		public int? CantidadInvitados { get; set; }
+
+		public UsuarioPropietarioDTO usuarioPropietario { get; set; }
 	}
 
 	public class EventoInsertDTO
@@ -50,6 +52,8 @@ namespace UESAN.Proyecto.Core.DTO
 		public string? MomentosImportantes { get; set; }
 
 		public int? CantidadInvitados { get; set; }
+
+		public int? IdUsuario { get; set; }
 	}
 
 	public class EventoUpdateDTO
@@ -75,5 +79,20 @@ namespace UESAN.Proyecto.Core.DTO
 
 		public int? CantidadInvitados { get; set; }
 
+		public int? IdUsuario { get; set; }
+
+	}
+
+	public class EventoPrincipalDTO
+	{
+		public int IdEvento { get; set; }
+
+		public string? Nombre { get; set; }
+
+		public DateTime? FechaEvento { get; set; }
+
+		public string? Lugar { get; set; }
+
+		public UsuarioPropietarioDTO usuarioPropietario { get; set; }
 	}
 }

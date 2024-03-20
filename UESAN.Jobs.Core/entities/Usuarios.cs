@@ -17,5 +17,11 @@ public partial class Usuarios
 
 	public string? Estado { get; set; }
 
-	public virtual ICollection<Interaccion> Interaccion { get; set; } = new List<Interaccion>();
+	public string? Contra { get; set; }
+
+	public string? Salt { get; set; }
+
+	public virtual ICollection<Eventos> Eventos { get; set; } = new List<Eventos>();
+
+	public virtual ICollection<ServicioEdicionVideo> ServicioEdicionVideo { get; set; } = new List<ServicioEdicionVideo>();
 }

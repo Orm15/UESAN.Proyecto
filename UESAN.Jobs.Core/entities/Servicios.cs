@@ -13,9 +13,15 @@ public partial class Servicios
 
 	public string? Tipo { get; set; }
 
-	public virtual ICollection<Foto> Foto { get; set; } = new List<Foto>();
+	public string? Estado { get; set; }
+
+	public virtual ICollection<CircuitoCerrado> CircuitoCerrado { get; set; } = new List<CircuitoCerrado>();
 
 	public virtual Eventos? IdEventoNavigation { get; set; }
+
+	public virtual ICollection<ServicioFotos> ServicioFotos { get; set; } = new List<ServicioFotos>();
+
+	public virtual ICollection<Stream> Stream { get; set; } = new List<Stream>();
 
 	public virtual ICollection<Videos> Videos { get; set; } = new List<Videos>();
 }
