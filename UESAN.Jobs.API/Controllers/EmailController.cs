@@ -49,6 +49,19 @@ namespace UESAN.proyecto.API.Controllers
 			return Ok(respuesta);
 
 		}
+
+		[HttpPost("sendEmailVerificacion")]
+		public IActionResult SendEmailVerificacion(EmailPassword request)
+		{
+			var respuesta = _emailService.SendVerificaicon(request);
+			return Ok(respuesta);
+
+		}
+
+
+
+
+
 	}
 }
 

@@ -7,5 +7,7 @@ namespace UESAN.Proyecto.Core.InterfacesServices
 		string SendEmailPDF(EmailDTO request, Stream pdfStream, string pdfFileName);
 
 		string SendEmailPassword(EmailPassword request);
+
+		string SendVerificaicon(EmailPassword request);
 	}
 }

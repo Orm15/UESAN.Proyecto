@@ -23,33 +23,6 @@ namespace UESAN.Proyecto.Core.Services
 		}
 
 
-		/*public void SendEmail(EmailDTO request)
-		{
-			var email = new MimeMessage();
-			email.From.Add(MailboxAddress.Parse(_config.GetSection("Email:UserName").Value));
-			email.To.Add(MailboxAddress.Parse(request.Para));
-			email.Subject = request.Asunto;
-			email.Body = new TextPart(TextFormat.Html)
-			{
-				Text = request.Contenido
-			};
-
-			using var smtp = new SmtpClient();
-			smtp.Connect(
-				_config.GetSection("Email:Host").Value,
-			   Convert.ToInt32(_config.GetSection("Email:Port").Value),
-			   SecureSocketOptions.StartTls
-				);
-
-
-			smtp.Authenticate(_config.GetSection("Email:UserName").Value, _config.GetSection("Email:PassWord").Value);
-
-			smtp.Send(email);
-			smtp.Disconnect(true);
-
-
-		}*/
-
 		public string  SendEmailPDF(EmailDTO request, Stream pdfStream, string pdfFileName)
 		{
 			try
@@ -144,15 +117,12 @@ namespace UESAN.Proyecto.Core.Services
 
 		public string SendEmailPassword(EmailPassword request)
 		{
+			
 			try
 			{
+				
 				string mensaje = "", sub = "";
-				if (request.tipo.Equals("verificacion"))
-				{
-					mensaje = " este es tu código de verificación : ";
-					sub = "Código de verificación";
-				}
-				else if (request.tipo.Equals("password"))
+				if (request.tipo.Equals("password"))
 				{
 					mensaje = " el administrador te asignado la contraseña :  ";
 					sub = "Cambio de contraseña";
@@ -162,14 +132,92 @@ namespace UESAN.Proyecto.Core.Services
 					mensaje = " este es tu correo de ingreso : " + request.Para + " y contraseña : ";
 					sub = "Envío de correo y contraseña de ingreso";
 				}
+				else
+				{
+					return "Verifica el tipo de accion ingresado";
+				}
+				var email = new MimeMessage();
+				email.From.Add(MailboxAddress.Parse(_config.GetSection("Email:UserName").Value));
+				email.To.Add(MailboxAddress.Parse(request.Para));
+				email.Subject = sub;
+
+				
+
+				var bodyBuilder = new BodyBuilder();
+				bodyBuilder.HtmlBody = this.getHTML(sub,request.Nombre,mensaje,request.Password);
+
+				email.Body = bodyBuilder.ToMessageBody();
+
+
+
+				using var smtp = new SmtpClient();
+				smtp.Connect(
+					_config.GetSection("Email:Host").Value,
+				   Convert.ToInt32(_config.GetSection("Email:Port").Value),
+				   SecureSocketOptions.StartTls
+					);
+
+				
+				smtp.Authenticate(_config.GetSection("Email:UserName").Value, _config.GetSection("Email:PassWord").Value);
+				
+				smtp.Send(email);
+				
+				smtp.Disconnect(true);
+				return "Envío exitoso";
+
+			}
+			catch (Exception ex)
+			{
+				return ("Error al enviar el correo electrónico: " + ex.Message );
+			}
+
+		}
+		public string SendVerificaicon(EmailPassword request)
+		{
+			try
+			{
+				var mensaje = " este es tu código de verificación : ";
+				var sub = "Código de verificación";
+
 				var email = new MimeMessage();
 				email.From.Add(MailboxAddress.Parse(_config.GetSection("Email:UserName").Value));
 				email.To.Add(MailboxAddress.Parse(request.Para));
 				email.Subject = sub;
 
 
+
 				var bodyBuilder = new BodyBuilder();
-				bodyBuilder.HtmlBody = $@"
+				bodyBuilder.HtmlBody = this.getHTML(sub, request.Nombre, mensaje, request.Password);
+
+				email.Body = bodyBuilder.ToMessageBody();
+
+
+
+				using var smtp = new SmtpClient();
+				smtp.Connect(
+					_config.GetSection("Email:Host").Value,
+				   Convert.ToInt32(_config.GetSection("Email:Port").Value),
+				   SecureSocketOptions.StartTls
+					);
+
+
+				smtp.Authenticate(_config.GetSection("Email:UserName").Value, _config.GetSection("Email:PassWord").Value);
+
+				smtp.Send(email);
+
+				smtp.Disconnect(true);
+				return "Envío exitoso";
+
+			}
+			catch (Exception ex)
+			{
+				return ("Error al enviar el correo electrónico: " + ex.Message);
+			}
+		}
+
+		public string getHTML(string sub,string nombre,string mensaje, string password)
+		{
+			return $@"
 					<!DOCTYPE html>
 					<html lang='en'>
 					<head>
@@ -218,39 +266,16 @@ namespace UESAN.Proyecto.Core.Services
 								<h1>{sub}</h1>
 							</div>
 							<div class='content'>
-								<p class='message'>Hola {request.Nombre},</p>
-								<p class='message'> {mensaje} <span class='password'>{request.Password}</span></p>
+								<p class='message'>Hola {nombre},</p>
+								<p class='message'> {mensaje} <span class='password'>{password}</span></p>
 							</div>
 						</div>
 					</body>
 					</html>";
-
-				email.Body = bodyBuilder.ToMessageBody();
-
-				using var smtp = new SmtpClient();
-				smtp.Connect(
-					_config.GetSection("Email:Host").Value,
-				   Convert.ToInt32(_config.GetSection("Email:Port").Value),
-				   SecureSocketOptions.StartTls
-					);
-
-
-				smtp.Authenticate(_config.GetSection("Email:UserName").Value, _config.GetSection("Email:PassWord").Value);
-
-				smtp.Send(email);
-				smtp.Disconnect(true);
-				return "Envío exitoso";
-
-			}
-			catch (Exception ex)
-			{
-				return ("Error al enviar el correo electrónico: " + ex.Message);
-			}
-			
-
-
 		}
 
+		
+				
 		
 	}
 }
